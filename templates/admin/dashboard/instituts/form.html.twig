@@ -1,0 +1,233 @@
+{% extends 'admin/dashboard/base.html.twig'%}
+{% block content %}
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-12 col-md-8 mx-auto ">
+            <div class="mb-3">
+                {% if isCenter is empty %}
+                <h1 class="h3 mb-1 col-10">{{data ? t("Editer "):t("Ajouter ")}}{{" une nouvelle institution"|trans}}</h1>
+                <p>{{data ? t("Editer "):t("Ajouter ")}}{{t("une nouvelle institution de formation.")}}
+                </p>
+                {% else %}
+                <h1 class="h3 mb-1 col-10">{{data ? t("Editer "):t("Ajouter ")}}{{" un nouveau centre"|trans}}</h1>
+                <p>{{data ? t("Editer "):t("Ajouter ")}}{{t("un nouveau centre de formation.")}}
+                </p>
+                {% endif %}
+            </div>
+            <div class="card">
+                <div class="error-shower"></div>
+                <nav class="card-header">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#general"
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">Information
+                            Générales</button>
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                            type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Information de
+                            contact
+                        </button>
+                    </div>
+                </nav>
+                {% if ( message is not empty) and ( errors is not empty) %}
+                <div class="alert alert-danger p-3" role="alert">
+                    {{message}}
+                </div>
+                {% endif %}
+                <div class="messagealert">
+                </div>
+                <form  class="tab-content data-insitution card-body " id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="general" role="tabpanel" tabindex="0">
+                        <div class="">
+
+                            <div class="">
+                                <div class="input-group-lg">
+                                    <label class="mb-1">{{t("Nom ")}}{{isCenter ? "du centre":"de l'institution"}}</label>
+                                    <input type="text" name="institution_name"
+                                        class="form-control form-lg " value="{{data.institution_name}}">
+                                </div>
+                                <div class="input-group-lg mt-4">
+                                    <label class="mb-1">{{t("Type ")}}{{isCenter ? "du centre":"de l'institution"}}</label>
+                                    <select name="institution_type" class="form-select" id="" value="{{data.institution_type}}" >
+                                        <option>Choisir un type d'{{ isCenter ?  "center":"instution"}}</option>
+                                        <option value="UNIVERSITY" {{data.institution_type=="UNIVERSITY"?"selected":""}}>University</option>
+                                        <option value="PROFESIONNAL_CENTER" {{data.institution_type=="PROFESIONNAL_CENTER"?"selected":""}}>Centre Professionnel</option>
+                                        <option value="SCHOOL" {{data.institution_type=="SCHOOL"?"selected":""}}>Ecole</option>
+                                        <option value="OTHER" {{data.institution_type=="OTHER"?"selected":""}}>Autres</option>
+                                    </select>
+                                </div>
+                                <div class=" form-wysiwyg">
+                                    <div class="clearfix mt-4">
+                                        <div id="quill-toolbar" class="rounded-top-lg">
+                                            <span class="ql-formats">
+                                                <select class="ql-size"></select>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <select class="ql-color"></select>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-header" value="1"></button>
+                                                <button class="ql-header" value="2"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-list" value="ordered"></button>
+                                                <button class="ql-list" value="bullet"></button>
+                                                <button class="ql-indent" value="-1"></button>
+                                                <button class="ql-indent" value="+1"></button>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-direction" value="rtl"></button>
+                                                <select class="ql-align"></select>
+                                            </span>
+                                            <span class="ql-formats">
+                                                <button class="ql-clean"></button>
+                                            </span>
+                                        </div>
+                                        <div id="quill-editor" class="rounded-bottom-lg"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <label class="mb-1">{{t("Langue de formation")}}</label>
+                                    <select value="" name="institution_supported_languages" class="form-control select2" data-toggle="select2" multiple>
+                                        <option value="fr" {{ "fr" in data.institution_supported_languages ? 'selected="selected"'}}>Français</option>
+                                        <option value="en" {{ "en" in data.institution_supported_languages ? 'selected="selected"'}}>Anglais</option>
+                                </select>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <label class="mb-1">{{t("Logo ")}}{{ isCenter ?  "du centre":"de l'instution"}}</label>
+                                    <div style="max-width: 100%;"
+                                        class="relative icon-file-selector  rounded-lg  shadow text-lg d-flex justify-content-center align-items-center">
+                                        <input type="file" name="institution_logoUrl" />
+                                        <i class="fas fa-image image_icon"></i>
+                                        <button style="width:10px; height:10px;"
+                                            class="close absolute shadow-lg rounded-full p-2 bg-white border-0 d-none">
+                                            <i class="fas fa-close"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                {% if isCenter is empty %}
+                                <div class="mt-4">
+                                    <label class="form-check">
+                                        <input class="form-check-input" {{data.institution_isGroup ? "checked":""}} type="checkbox"
+                                            name="institution_isGroup" value="">
+                                        <span class="form-check-label">
+                                            {{t("Cette institution dispose de plusieurs centres")}}
+                                        </span>
+                                    </label>
+                                </div>
+                                {% endif %}
+                                <div class="text-end mt-4">
+                                    <button  data-next-target="contact" type="button"
+                                        class="form-next btn btn-lg btn-primary border-0">
+                                        <span class="d-sm-none">{{t("Suivant")}}</span>
+                                        <span class="d-none d-sm-inline ">{{t("Suivant")}}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" tabindex="0">
+                        <div class="row">
+                            <div class="input-group-lg  col-12 ">
+                                <label class="mb-1">{{t("Email Officiel")}}</label>
+                                <input type="text" name="institution_contactEmail"
+                                    class="form-control form-lg " value="{{data.institution_contactEmail}}">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="input-group-lg col-12">
+                                <label class="mb-1">{{t("Téléphone Officiel")}}</label>
+                                <input type="text" name="institution_tel"
+                                    class="form-control form-lg " value="{{data.institution_tel}}">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="input-group-lg  col-12">
+                                <label class="mb-1">{{t("Pays")}}</label>
+                                <select name="institution_country"value="{{data.institution_country}}" class="form-select" id="" value="{{data.institution_type}}">
+                                    <option>Choisir un pays</option>
+                                    {% for p in countries %}
+                                    <option value="{{p.code}}" {{data.institution_country==p.code ? "selected":""}}>{{p.name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="input-group-lg  col-12">
+                                <label class="mb-1">{{t("Nom de le ville")}}</label>
+                                <input list="townlist" type="text" name="institution_town"
+                                    class="form-control form-lg"  value="{{data.institution_town}}">
+                                <datalist id="townlist">
+                                    {% for t in town %}
+                                    <option value="{{t.town_name}}">{{t.town_name}}</option>
+                                    {% endfor %}
+                                    
+                                </datalist>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="input-group-lg col-12 col-md-6 ">
+                                <label class="mb-1">{{t("Adresse 1")}}</label>
+                                <input type="text" name="institution_adress"
+                                    class="form-control form-lg " value="{{data.institution_adress}}">
+                            </div>
+
+                            <div class="input-group-lg col-12 col-md-6 ">
+                                <label class="mb-1">{{t("Adresse 2")}}</label>
+                                <input type="text" name="institution_adress_additionnal"
+                                    class="form-control form-lg " value="{{data.institution_adress_additionnal}}">
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="input-group-lg  col-12">
+                                <label class="mb-1">{{t("Url du site internet")}}</label>
+                                <input type="text" name="institution_website_url"
+                                    class="form-control form-lg " value="{{data.institution_website_url}}">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="text-end mt-4">
+                                <button data-next-target="contact" type="submit"
+                                    class="form-next btn btn-lg btn-primary border-0">
+                                    <span class="d-sm-none">{{t("Suivant")}}</span>
+                                    <span class="d-none d-sm-inline ">{{data.institution_id ? t('Modifier'):t("Ajouter")}}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="csrf_token" value="{{csrf_token}}" />
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var isCenter={{isCenter ? isCenter: 0 }};
+    var parent='{{parent.institution_id is not empty ? parent.institution_id  :  ""}}'
+
+    var quilInitial=`{{data.institution_description|raw}}`
+    var itemsId=`{{data.institution_id}}`
+    document.addEventListener("DOMContentLoaded", function (e) {
+        $(".select2").each(function () {
+            $(this)
+                .wrap("<div class=\"position-relative\"></div>")
+                .select2({
+                    placeholder: "Sélectionner une langue",
+                    dropdownParent: $(this).parent()
+                });
+        })
+        new InsitutionPage();
+        if("{{data.institution_logoUrl}}"){
+            handleIconClick(".icon-file-selector", "{{data.institution_logoUrl}}")
+        }
+    });
+</script>
+
+{% endblock %}

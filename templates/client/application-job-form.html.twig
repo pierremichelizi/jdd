@@ -1,0 +1,383 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<!-- about page start here  -->
+<div class="instructors-wrapper single-page-section-bottom-space">
+
+    <div class="breadcrumb-wrap style-01">
+        <div class="container custom-container-01">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content ">
+                        <h3 class="title">{{t("Candidature Job")}} {{(job.job_title ? "- " ~ job.job_title :"")|raw}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if not data.job_application_is_paid %}
+    <!-- teem area start here  -->
+    <section class="our-team-area-wrapper">
+        <div class="our-team-inner">
+            <div class="container custom-container-01">
+                <div class="">
+                    <div class="d-md-flex d-block align-items-start row form">
+                        <div class="p-4 col-md-4 col-xl-3 nav flex-column nav-pills pe-3" id="v-pills-tab"
+                            role="tablist" aria-orientation="vertical">
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="active lh-1 btn-common nav-link  button-step-1" id="v-pills-home-a"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-1" type="button" role="tab"
+                                aria-controls="v-pills-home" aria-selected="true" tabindex="-1">{{t("Informations Personnelles")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link  
+                                {{data.job_application_step >= 2 ? "":"disabled"}}
+                                button-step-2" id="v-pills-profile-b"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-2" type="button" role="tab"
+                                aria-controls="v-pills-home-tab" aria-selected="false" >{{t("Dossiers à fournir ")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.job_application_step >= 3 ? "":"disabled"}}
+                                button-step-3" id="v-pills-settings-h"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-3" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" 
+                                tabindex="-1">{{t("Révision du dossier")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link  button-step-4 
+                                {{data.job_application_step >= 4 ? "":"disabled"}}
+                                " id="v-pills-settings-i"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-4" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" 
+                                tabindex="-1">{{t("Soumission de dossier")}}</button>
+                        </div>
+                        <div class="col-md-8 col-xl-9 bg-white shadow p-4 " style="border-radius: 20px;">
+                            <div class="tab-content mt-5 mt-md-0" id="">
+                                <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <form class="form-step" data-step="1">
+                                        <div class="">
+                                            <h6 class="border-bottom   pb-2 mb-4"><strong>{{t("Informations de
+                                                    personnelles")}}</strong></h6>
+                                            <div class="row form-element">
+                                                <div class="mt-3 col-12 col-md-6 ">
+                                                    <label for="formFile" class="form-label">{{t("Nom")}}</label>
+                                                    <input type="text" name="application-lastname"
+                                                        placeholder="" required="" class="w-100" value="{{data.job_application_lastname}}">
+                                                    <small>{{t("Veuillez saisir votre nom de famille")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6 ">
+                                                    <label for="formFile" class="form-label">{{t("Prénom(s)")}}</label>
+                                                    <input type="text" name="application-firstname"
+                                                        placeholder="" required="" class="w-100" value="{{data.job_application_firstname}}">
+                                                    <small>{{t("Veuillez saisir votre prénom ")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Pays d'origine ")}}</label>
+                                                    <div>
+                                                        <select class="" name="application-nationality">
+                                                            <option>{{t("Choisir")}}</option>
+                                                                {% for k,v in countries %}
+                                                                <option value="{{k}}" {{data.job_application_nationality== k? "selected='selected'":""}}>{{v["name"]}}</option>
+                                                                {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Pays de résidence")}}</label>
+                                                    <div>
+                                                        <select class="" name="application-country">
+                                                            {% for k,v in countries %}
+                                                            <option value="{{k}}" {{data.job_application_country== k? "selected='selected'":""}}>{{v["name"]}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 col-12 ">
+                                                    <label for="formFile" class="form-label">{{t("Date de
+                                                        naissance")}}</label>
+                                                    <input type="date" name="application-bithday" placeholder=""
+                                                        required="" class="w-100"  value="{{data.job_application_bithday|date("Y-m-d")}}">
+                                                    <small>{{t("Veuillez entrer votre date de naissance")}}</small>
+                                                </div>
+                                                <div class="col-12 mt-3">
+                                                    <label for="formFile" class="form-label">{{t("Sexe")}} </label>
+                                                    <div class="form-check mt-2">
+                                                        <input value="M" {{data.job_application_sex=="M" ? "checked='checked'":""}} name="application-sexe"
+                                                            class="form-check-input" type="radio">
+                                                        <label class="form-check-label">
+                                                            {{t("Masculin")}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mt-2">
+                                                        <input  {{data.job_application_sex=="F" ? "checked='checked'":""}}  class="form-check-input" value="F" type="radio"
+                                                            name="application-sexe" checked>
+                                                        <label class="form-check-label">
+                                                            {{t("Féminin")}}
+
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Votre
+                                                        courriel")}}</label>
+                                                    <input type="text" value="{{data.job_application_email}}" name="application-email" placeholder=""
+                                                        required="" class="w-100">
+                                                    <small>{{t("Veuillez à mettre une adresse de courriel
+                                                        valide")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Numéro de
+                                                        téléphone")}}
+                                                    </label>
+                                                    <input type="tel" value="{{data.job_application_phone}}"  name="application-phone" placeholder=""
+                                                        required="" class="w-100">
+                                                    <small>{{t("Il est recommandé de renseigné un numéro de téléphone
+                                                        pour
+                                                        vous contacter directement si besoin ")}}</small>
+                                                </div>
+
+                                                <div class="mt-3 col-12">
+                                                    <div>
+                                                        <label for="formFile" class="form-label">{{t('Votre adresse de résidence')}}</label>
+                                                    </div>
+                                                    <div>
+                                                        
+                                                        <input type="tel" value="{{data.job_application_adress}}"  name="application-adress" placeholder="N rue, quartier, Ville"
+                                                        required="" class="w-100">
+                                                        
+                                                    </div>
+                                                    <div>
+                                                        <small>{{t("Veuillez renseigner votre adresse actuelle")}}</small>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-12">
+                                                    <label for="formFile" class="form-label">{{t("Pays du job ")}}</label>
+                                                    <div>
+                                                        <select class="" name="application-jobcountry">
+                                                            <option value="">{{t("Choisir")}}</option>
+                                                                <option value="DE" {{data.job_application_jobcountry|upper == 'DE'? "selected='selected'":""}}>Allemagne</option>
+                                                                <option value="CA" {{data.job_application_jobcountry|upper == 'CA'? "selected='selected'":""}}>Canada</option>
+                                                                <option value="FR" {{data.job_application_jobcountry|upper == 'FR'? "selected='selected'":""}}>France</option>
+                                                                <option value="CH" {{data.job_application_jobcountry|upper == 'CH'? "selected='selected'":""}}>Suisse</option>
+                                                                
+                                                                
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <small>{{t("Saisissez le pays dans lequel vous souhaitez travailler")}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div class="mt-4 text-right">
+                                            <button type="submit" class=" p-3 btn btn-common "><span
+                                                    class="me-2">{{t("Continuer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
+                                <div class="tab-pane fade" id="v-pills-2" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <form action="" class="form-step" data-step="2">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div class="form-element">
+                                            <div class="mt-5">
+                                                <h6 class="border-bottom pb-2 mb-4"><strong>{{t("Dossiers à fournir")}}</strong></h6>
+                                                <div class="row form-element">
+                                                    {% for k, i in json_decode(job.job_required_documents) %}
+                                                    <div class="mt-3 col-12 ">
+                                                        {% if data.job_application_required_documents is not empty and  json_decode(data.job_application_required_documents, true)[i] %}
+                                                        <div class="oldfile d-inline-flex align-items-center">
+                                                            <a href="{{json_decode(data.job_application_required_documents, true)[i]}}" download=""><h6 class="mb-0 ">  {{i}}</h6></a>
+                                                            <small class="ml-2 text-danger btn small removeOldFile">Supprimer</small>
+                                                        </div>
+                                                        
+                                                        {% endif %}
+                                                        <div class="input {{data.job_application_required_documents is not empty and  json_decode(data.job_application_required_documents, true)[i] ? "hidden":""}}">
+                                                            <label for="formFileLg" class="form-label"><strong>{{i}}</strong></label>
+                                                            {{data.job_application_required_documents is not empty and  json_decode(data.job_application_required_documents, true)[i] ? '<button class="btn inputfile-back" ><i class="fas fa-refresh"></i></button>':""}}
+                                                            <input name="{{k}}" class="form-control form-control" id="formFileLg" type="file" accept="application/pdf">
+                                                            
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 text-right">
+                                                <button type="submit"  class=" p-3 btn btn-common "><span
+                                                        class="me-2">{{t("Continuer")}}</span>
+                                                    <i class="fa fa-chevron-right "></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                               
+                                <div class="tab-pane fade" id="v-pills-3" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <h5>{{t("Révision")}}</h5>
+                                    <div id="resume-container">
+                                        {% if resume is not empty %}
+                                        {{resume|raw}}
+                                        {% else %}
+                                        <p>{{t("Vous n'avez pas encore ajouté d'informations")}}</p>
+                                        {% endif %}
+                                    </div>
+                                    <form data-step="3" class="form-step">
+                                        <div class="mt-4 text-right">
+                                            <button type="submit"  class=" p-3 btn btn-common "><span
+                                                    class="me-2">{{t("Confirmer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="v-pills-4" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <h5>{{t("Frais de dossier")}}</h5>
+                                    <div class="card mt-4 p-4">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <h6>{{t("Paiement des frais de dossier")}}</h6>
+                                            </div>
+                                            <div class="pb-4">
+                                                <p class="">
+                                                    {{t("Veuillez procédér au paiement des frais de dossier pour
+                                                    soumettre votre dossier")}}
+                                                </p>
+                                                <p>{{"Montant à payer"}}</p>
+                                                <h3>{{job.job_application_fees~" €"}}</h3>
+                                                <a href="{{data.job_application_invoice_id is not empty ? "/payments/"~data.job_application_invoice_id~"/resume" : "#"}}" class="pay-btn p-3 btn btn-common "><span
+                                                        class="me-2">{{t("Payer")}}</span>
+                                                    <i class="fa fa-chevron-right "></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    {% else %}
+        <div class="card col-12 col-md-10 mx-auto shadow">
+            <div class="card-body p-4">
+                <div class="d-md-flex justify-content-between">
+                    <h3 class="text-primary">{{t("Candidature")}}</h3>
+                    <div>
+                        <button class="btn bg-warning text-white " >En cours d'analyse</button>
+                    </div>
+                </div>
+                {{resume|raw}}
+                <div class="mt-4">
+                    <div class="d-flex pb-2  justify-content-between">
+                        <h6 class=" ">{{t("Frais du dossier - ")}}${{job.job_application_fees}} (<span class="text-success">Payés</span>)</h6>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    {% endif %}
+    <!-- teem area end here  -->
+</div>
+<!-- about page end here  -->
+
+<script>
+    
+    window.onload = function () {
+        {% if data.job_application_step %}
+        $("[data-bs-target='#v-pills-{{data.job_application_step}}']").removeAttr("disabled").removeClass("disabled").click();
+        {% else %}
+        $("[data-bs-target='#v-pills-1']").removeAttr("disabled").removeClass("disabled").click();
+        {% endif %}
+
+        let currentApplicationId = '{{data.job_application_id ?? null }}';
+
+        function handleEvent(e) {
+            e.preventDefault();
+            const step = e.currentTarget.dataset["step"];
+
+
+            if (!isNaN(step) && step) {
+                //(formClass, to, onSuccess, getParentCallback, additionnals = {}, onError)
+                $(e.currentTarget)
+                .find('button[type="submit"]')
+                .attr("disabled", "disabled")
+                .addClass('disabled')
+                .prepend(`
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                `)
+                submitForm(`form.form-step[data-step='${step}']`, "/submissions/job/{{job.job_id}}?step="+step , (result) => {
+                    let next = Number(step) + 1;
+                    if(result?.invoice_url){
+                        $("a.pay-btn").attr("href", result?.invoice_url)
+                    }
+                    if (!currentApplicationId && !!(result?.data?.application_id)) {
+                        currentApplicationId = result?.data?.application_id;
+                    }
+                    if (!!(result?.resume)) {
+                        $("#resume-container").html(result?.resume)
+                    }
+                    if (currentApplicationId) {
+                        while (!document.querySelector("[data-bs-target='#v-pills-" + next + "']")) {
+                            next = next + 1;
+                        }
+                        $("[data-bs-target='#v-pills-" + next + "']").removeAttr("disabled").removeClass("disabled").click();
+                        initEvent()
+                    }
+
+                }, null, {
+                    application_id: currentApplicationId
+                },null,()=>{
+                    $(e.currentTarget)
+                    .find("button[type='submit']")
+                    .removeClass("disabled")
+                    .removeAttr("disabled")
+                    .find(".spinner-border")
+                    .remove();
+                })
+            }
+        }
+
+        function initEvent() {
+            $("form.form-step").unbind("submit", handleEvent)
+            $("form.form-step").on("submit", handleEvent)
+        }
+        
+        initEvent()
+
+        function removeOldFile(e){
+            e.preventDefault()
+            $(e.currentTarget.parentNode.parentNode).find(".input.hidden").removeClass("hidden")
+            $(e.currentTarget).parent().addClass("hidden")
+        }
+        function backFile(e){
+            e.preventDefault()
+            $(e.currentTarget.parentNode.parentNode).find(".oldfile").removeClass("hidden")
+            $(e.currentTarget).parent().addClass("hidden")
+        }
+
+        $(".removeOldFile").on("click", removeOldFile)
+        $(".inputfile-back").on("click", backFile)
+
+       
+
+    }
+</script>
+{% endblock %}

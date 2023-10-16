@@ -1,0 +1,187 @@
+{% extends 'client/institution-base.html.twig' %}
+
+
+{% block userContent %}
+<div>
+    <div class="row">
+        <div class="col-12 ">
+            <div class="card" style="border-radius: 20px;">
+                <div class="card-body">
+                    <nav>
+                        <div class="nav nav-pills flex-column flex-sm-row" id="nav-tab" role="tablist">
+                            <button class=" text-sm-center nav-link btn-common active" style="border-radius: 10px;"
+                                id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button"
+                                role="tab" aria-controls="nav-home" aria-selected="true">{{t("Information
+                                Générale")}}</button>
+                            {% if centers is not empty %}
+                            <button class=" text-sm-center nav-link btn-common" style="border-radius: 10px;"
+                                id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+                                role="tab" aria-controls="nav-profile" aria-selected="false">{{t("Centres de
+                                formation")}}</button>
+                            {% endif %}
+                            <button class=" text-sm-center nav-link btn-common" style="border-radius: 10px;"
+                                id="nav-admission-tab" data-bs-toggle="tab" data-bs-target="#nav-admission" type="button"
+                                role="tab" aria-controls="nav-profile" aria-selected="false">{{t("Groupes
+                                d'Admissions")}}</button>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                            aria-labelledby="nav-home-tab" tabindex="0">
+                            <div class="mt-4">
+                                <p>
+                                    {{data.institution_description|raw}}
+                                </p>
+                            </div>
+                        </div>
+                        {% if centers is not empty %}
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                            tabindex="0">
+                            {% for a in centers %}
+                            <div class=" my-4 px-4 px-md-6 ">
+                                <div class="row border-bottom pb-2 d-md-flex align-content-center">
+                                    <div class="col-12 col-md-6 ">
+                                        <a href="/institution/{{a.institution_id}}">
+                                            <h6 class="text-primary">{{a.institution_name|raw}}<i
+                                                    class="me-2 fa fa-external-link"></i></h6>
+                                        </a>
+                                    </div>
+                                    <div class="col-12 col-md-6  d-md-flex justify-content-end">
+                                        <p class="text-truncate">
+                                            <span><i class="me-2 fa fa-location-pin"></i></span>
+                                            <span>{{a.town_name|raw}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md-6 col-12">
+                                        <div>
+                                            <p>
+                                                <span>
+                                                    <i class="me-2 fa fa-location-pin"></i>
+                                                </span>
+                                                <span>{{"Adresse"}}</span>
+                                            </p>
+                                            <p class="mt-1 ps-4">{{a.institution_adress|raw}}</p>
+                                        </div>
+                                        <div>
+                                            <p>
+                                                <span>
+                                                    <i class="me-2 fa fa-phone"></i>
+                                                </span>
+                                                <span>{{"Téléphone"}}</span>
+                                            </p>
+                                            <p class="mt-1 ps-4">{{a.institution_tel}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div>
+                                            <p>
+                                                <span>
+                                                    <i class="me-2 fa fa-mail"></i>
+                                                </span>
+                                                <span>{{"Email"}}</span>
+                                            </p>
+                                            <p class="mt-1 ps-4">{{a.institution_contactEmail}}</p>
+                                        </div>
+                                        <!--div>
+                                            <p>
+                                                <span>
+                                                    <i class="me-2 fa fa-phone"></i>
+                                                </span>
+                                                <span>{{"Téléphone"}}</span>
+                                            </p>
+                                            <p class="mt-1 ps-4">{{"+26266 2525"}}</p>
+                                        </div-->
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="tab-pane fade" id="nav-admission" role="tabpanel" aria-labelledby="nav-admission-tab"
+                            tabindex="0">
+                            <div>
+                                <div class="mt-4">
+                                    <h5>{{t("Les groupes d'admission")}}</h5>
+                                </div>
+                                {% for d in diplomasAdmissions %}
+                                <div class="mt-4">
+                                    <h6 class="text-primary border-bottom pb-2">{{d.name}}</h6>
+                                    <table class="table table-borderless">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">{{t("Programme")}}</th>
+                                                <th scope="col">{{t("Groupe")}}</th>
+                                                <th scope="col">{{t("Etat")}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="">
+                                            {% for a in d.admissions %}
+                                            <tr>
+                                                <th scope="row">
+                                                    {% if date(a.admission_group_close_date) > date("now") %}
+                                                    <a href="/admission/{{a.admission_group_id}}" class="text-primary" style="text-decoration: underline;">
+                                                        <i class="fas fa-link"></i> {{a.program_name|raw}}
+                                                    </a>
+                                                    {% else %}
+                                                    <a href="#">
+                                                        {{a.program_name|raw}}
+                                                    </a>
+                                                    {% endif %}
+                                                </th>
+                                                <td>
+                                                    <p>{{a.admission_group_name}}({{a.admission_group_code}})</p>
+                                                </td>
+                                                <td>
+                                                    {% if date(a.admission_group_close_date) > date("now") %}
+                                                    <p class=" text-success">
+                                                        <span class="text-success">{{t("Ouverte")}}</span>
+                                                        <span>
+                                                            <span style="width:10px; height:10px;"
+                                                                class="d-inline-block   bg-success border border-light rounded-circle">
+                                                                <span class="visually-hidden">New alerts</span>
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                    {% else %}
+                                                    <p class="text-danger">
+                                                        <span class="text-danger">{{t("Cloturée")}}</span>
+                                                        <span>
+                                                            <span style="width:10px; height:10px;"
+                                                                class="d-inline-block   bg-danger border border-light rounded-circle">
+                                                                <span class="visually-hidden">New alerts</span>
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        if (window.location.hash == '#nav-admission-tab') {
+            document.querySelector('#nav-admission-tab').click(); // theTabID of the tab you want to open
+            
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,174 @@
+{% extends 'client/institution-base.html.twig' %}
+
+{% block userContent %}
+<div>
+    <div class="row">
+        <div class="col-12 ">
+            <div class="card" style="border-radius: 20px;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <p class="m-0"><small>{{t("Programme")}}</small></p>
+                            <h3>{{admission.program_name}}</h3>
+                        </div>
+                       
+                        {% set isActiveAdmission= date('now') > date(admission.admission_group_close_date) ? 0 : 1 %}
+                        <div class="d-flex align-items-center">
+                            {% if isActiveAdmission %}
+                            <p class=" text-success m-0 me-2 ">
+                                <span>{{t("Ouverte")}}</span>
+                                <span>
+                                    <span style="width:10px; height:10px;"
+                                        class="d-inline-block   bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </span>
+                            </p>
+                            {% else %}
+                            {% if isActiveAdmission %}
+                            <p class=" text-danger m-0 me-2 ">
+                                <span class="text-danger">{{t("Cloturé")}}</span>
+                                <span>
+                                    <span style="width:10px; height:10px;"
+                                        class="d-inline-block   bg-danger border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </span>
+                            </p>
+                            {% endif %}
+                            {% endif %}
+                            <a href="/admission/{{admission.admission_group_id}}/application"  class="d-none d-none btn btn-common bg-primary text-white">{{t("Postuler")}}</a>
+                        </div>
+                        
+                    </div>
+                    <div class="mt-4">
+                        <div class="border-bottom pb-2">
+                            <h6>{{t("Détails du programme")}}</h6>
+                        </div>
+                        <p class="mt-4">
+                            {{admission.program_goal_description|raw}}
+                        </p>
+                    </div>
+                    <div>
+                        <div class="mt-4">
+                            <div class="border-bottom pb-2">
+                                <p class="m-0"><small>{{t("Groupe d'admission")}}</small></p>
+                                <h6>{{admission.admission_group_name|raw}} ({{admission.admission_group_code}})</h6>
+                            </div>
+                            <div class="mt-4">
+                                {{admission.admission_group_description|raw}}
+                            </div>
+                            <div class="mt-4">
+
+                                <h6 style="font-size: 0.9rem;">
+                                    {{t("Période de candidature")}}
+                                </h6>
+                                <div class="row">
+                                    <div class="col-12 col-md-6">
+                                        {{t("Début : ")}}{{admission.admission_group_start_date|date( "d/m/Y H\\h ")}}
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                        {{t("FIn : ")}}{{admission.admission_group_close_date|date( "d/m/Y H\\h ")}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+
+                                <div class="">
+                                    <h6 style="font-size: 0.9rem;">
+                                        {{t("Durée du programme")}}
+                                    </h6>
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            {{t("Début : ")}}{{admission.admission_group_program_start_date|date( "d/m/Y
+                                            H\\h ")}}
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            {{t("FIn : ")}}{{admission.admission_group_program_close_date|date( "d/m/Y H\\h
+                                            ")}}
+                                        </div>
+                                    </div> 
+                                </div>
+                                
+                            </div>
+                            <div class="mt-4 row">
+
+                                <div class="col-12 col-md-6">
+                                    <h6 style="font-size: 0.9rem;">
+                                        {{t("Détails de la formation")}}
+                                    </h6>
+                                    <p class="{{admission.admission_group_in_day_course ? " text-success":"text-danger"}}">
+                                        <span class="">
+                                            <i class="fas fa-check {{admission.admission_group_in_day_course  ? "":"
+                                                hidden"}}"></i>
+                                            <i class="fas fa-close {{admission.admission_group_in_day_course  ? "
+                                                hidden":""}}"></i>
+                                        </span>
+                                        <span>{{t("Cours du Jour")}}</span>
+                                    </p>
+                                    <p class="{{admission.admission_group_in_night_course ? "
+                                        text-success":"text-danger"}}">
+                                        <span>
+                                            <i class="fas fa-check {{admission.admission_group_in_night_course  ? "":"
+                                                hidden"}}"></i>
+                                            <i class="fas fa-close {{admission.admission_group_in_night_course  ? "
+                                                hidden":""}}"></i>
+                                        </span>
+                                        <span class="ms-1">{{t("Cours du Soir")}}</span>
+                                    </p>
+                                    <p class="{{admission.admission_group_scholarship_available ? "
+                                        text-success":"text-danger"}}">
+                                        <span>
+                                            <i class="fas fa-check {{admission.admission_group_scholarship_available  ? "":"
+                                                hidden"}}"></i>
+                                            <i class="fas fa-close {{admission.admission_group_scholarship_available  ? "
+                                                hidden":""}}"></i>
+                                        </span>
+                                        <span class="ms-1">{{t("Bourse de formation")}}</span>
+                                    </p>
+                                </div>
+
+                                <div  class="col-12 col-md-6">
+                                    <h6 style="font-size: 0.9rem;">
+                                        {{t("Nombre de places disponibles")}}
+                                    </h6>
+                                    <p>{{admission.admission_group_max_places}}</p>
+                                </div>
+                            </div>
+                            {% if admission_group_additionnal_info %}
+                            
+                            <div>
+                                <h6 style="font-size: 0.9rem;">
+                                    {{t("Informtations Additionnelles")}}
+                                </h6>
+                                <p>{{admission.admission_group_additionnal_info|raw}}</p>
+                            </div>
+                            {% endif %}
+                           
+                        </div>
+                    </div>
+                    {% if  isActiveAdmission %}
+                    <div class="mt-4  ">
+                        <a href="/admission/{{admission.admission_group_id}}/application"  class="w-100 btn btn-common bg-primary text-white">{{t("Postuler")}}</a>
+                    </div>
+                    {% else %}
+                    <div class="mt-4 d-lg-none ">
+                        <a disabled="disabled" href="#"  class="w-100 btn btn-common bg-primary text-white disabled">{{t("Cloturé")}}</a>
+                    </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        if (window.location.hash == '#nav-admission-tab') {
+            document.querySelector('#nav-admission-tab').click(); // theTabID of the tab you want to open
+
+        }
+    }
+</script>
+{% endblock %}

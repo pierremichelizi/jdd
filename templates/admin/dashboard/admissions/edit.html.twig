@@ -1,0 +1,235 @@
+{% extends 'admin/dashboard/base.html.twig'%}
+{% block content %}
+<style>
+    #program_goals [data-type='container'] >*:nth-child(2n + 1) {
+        background-color: #eee;
+    }
+</style>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-12 mx-auto ">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="c">{{t("Créer un groupe d'admission ")}}</h3>
+
+            </div>
+            <div class="error-form"></div>
+            <div class=" mt-4 create-content" >
+                <form class="group-form">
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Nom du groupe")}}</label>
+                        <input type="text" name="name" class="form-control form-control-lg "
+                            value="{{data.admission_group_name}}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Programme concerné")}}</label>
+                        <select name="program" class="form-select form-select-lg">
+                            {% for s in programs %}
+                            <option value="{{s.program_id}}" {{ data.admission_group_program_id == s.admission_group_program_id ? "selected='selected'":"" }}>{{s.program_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Insitution concerné")}}</label>
+                        <select name="institution" class="form-select form-select-lg">
+                            {% for s in institutions %}
+                            <option value="{{s.institution_id}}" {{ data.admission_group_institution_id == s.institution_id ? "selected='selected'":"" }}>{{s.institution_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Code du groupe")}}</label>
+                        <input type="text" name="code" class="form-control form-control-lg "
+                            value="{{data.admission_group_code}}">
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Description du groupe")}}</label>
+                        <div class=" form-wysiwyg">
+                            <div class="clearfix mt-4">
+                                <div id="quill-toolbar" class="rounded-top-lg">
+                                    <span class="ql-formats">
+                                        <select class="ql-size"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-header" value="1"></button>
+                                        <button class="ql-header" value="2"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <button class="ql-indent" value="-1"></button>
+                                        <button class="ql-indent" value="+1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-direction" value="rtl"></button>
+                                        <select class="ql-align"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-clean"></button>
+                                    </span>
+                                </div>
+                                <div id="quill-editor" class="rounded-bottom-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Nombre de places disponibles")}}</label>
+                        <input type="text" name="max_places" class="form-control form-control-lg "
+                            value="{{data.admission_group_max_places}}">
+                    </div>
+                    <div class="row">
+                            <div class="input-group-lg mt-4 col-12 col-md-6">
+                                <label class="mb-1">{{t("Date de début d'ouverture des candidature")}}</label>
+                                <input type="date" name="start_date" class="form-control form-control-lg "
+                                    value="{{data.admission_group_start_date|date("Y-m-d")}}">
+                            </div>
+                            <div class="input-group-lg mt-4 col-12 col-md-6">
+                                <label class="mb-1">{{t("Date de fermerture des candidatures")}}</label>
+                                <input type="date" name="end_date" class="form-control form-control-lg "
+                                    value="{{data.admission_group_end_date|date("Y-m-d")}}">
+                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                           
+                            <div class="input-group-lg mt-4">
+                                <label class="mb-1">{{t("Date de début du programme")}}</label>
+                                <input type="date" name="start_program_date" class="form-control form-control-lg "
+                                    value="{{data.admission_group_program_start_date|date("Y-m-d")}}">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="input-group-lg mt-4">
+                                <label class="mb-1">{{t("Date de fin du programme")}}</label>
+                                <input type="date" name="end_program_date" class="form-control form-control-lg "
+                                    value="{{data.admission_group_program_close_date|date("Y-m-d")}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-2">{{t("Bourse de formation")}}</p>
+                        <div class="form-control">
+                            <input class="form-check-input" name="scholarship_available"
+                                type="checkbox" id="firstCheckbox" {{data.admission_group_scholarship_available ? "checked='checked'":""}}>
+                            <label class="form-check-label" for="firstCheckbox">{{t("Bourses disponibles")}}</label>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-2">{{t("Période de cours (Journée)")}}</p>
+                        <div class="form-control">
+                            <input class="form-check-input" name="in_day_course"
+                                type="checkbox" value="" id="firstCheckbox" {{data.admission_group_in_day_course ? "checked='checked'":""}}>
+                            <label class="form-check-label" for="firstCheckbox">{{t("Disponible en cours du jour")}}</label>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="mb-2">{{t("Période de cours (Soirée)")}}</p>
+                        <div class="form-control">
+                            <input class="form-check-input" name="in_night_course"
+                                type="checkbox" value="" id="firstCheckbox" {{data.admission_group_in_night_course ? "checked='checked'":""}}>
+                            <label class="form-check-label" for="firstCheckbox">{{t("Disponible en cours du soir")}}</label>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Information Additionnelles")}}</label>
+                        <div class=" form-wysiwyg">
+                            <div class="clearfix mt-4">
+                                <div id="quill-toolbar-conditions" class="rounded-top-lg ">
+                                    <span class="ql-formats">
+                                        <select class="ql-size"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-header" value="1"></button>
+                                        <button class="ql-header" value="2"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <button class="ql-indent" value="-1"></button>
+                                        <button class="ql-indent" value="+1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-direction" value="rtl"></button>
+                                        <select class="ql-align"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-clean"></button>
+                                    </span>
+                                </div>
+                                <div id="quill-editor-conditions" class="rounded-bottom-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Frais d'admission en Euro")}}</label>
+                        <input value="74.99" type="text" name="fees" class="form-control form-control-lg "
+                            value="{{data.admission_fees}}">
+                    </div>
+
+                    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                    <div class="p-4 text-center">
+                        <button type="submit" class="btn-lg btn btn-primary">{{data.program_id ? t("Editer"):t("Créér & Continuer")}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var quilInitialDescription=`{{data.admission_group_description|raw}}`
+    var quilInitialConditions=`{{data.admission_group_additionnal_info|raw}}`
+    var goals = [];
+    var item_id="{{ data.admission_group_id ? data.admission_group_id:''}}";
+    window.onload = function () {
+        
+        /*$("#create-btn").on("click", function(){
+            console.log("click")
+            $(".create-content").slideToggle();
+        })*/
+
+        
+
+        
+        new AdmissionGroups();
+    }
+
+    /*    var isCenter = {{ isCenter ?isCenter: 0 }};
+        var parent = '{{parent.institution_id is not empty ? parent.institution_id  :  ""}}'
+    
+        var quilInitial = `{{data.institution_description|raw}}`
+        var itemsId = `{{data.institution_id}}`
+        document.addEventListener("DOMContentLoaded", function (e) {
+            $(".select2").each(function () {
+                $(this)
+                    .wrap("<div class=\"position-relative\"></div>")
+                    .select2({
+                        placeholder: "Sélectionner une langue",
+                        dropdownParent: $(this).parent()
+                    });
+            })
+            
+            if ("{{data.institution_logoUrl}}") {
+                handleIconClick(".icon-file-selector", "{{data.institution_logoUrl}}")
+            }
+        });*/
+</script>
+
+
+{% endblock %}

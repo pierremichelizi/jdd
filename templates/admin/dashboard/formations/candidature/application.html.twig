@@ -1,0 +1,84 @@
+{% extends 'admin/dashboard/base.html.twig' %}
+{% block title %}Liste des formations | Administration | AdmissionFacile
+{% endblock %}
+{% block content %}
+<div class="container-fluid p-0">
+
+	<div class="d-flex justify-space-between row">
+		<div class="mb-4 col-12 col-sm-8  ">
+			<div class="d-flex w-100">
+				<h1 class="h3 mb-1 col-10">{{"Dossier d'application N. "~data.application_code|trans}}</h1>
+			</div>
+		</div>
+    
+		<!--div class=" col-sm-4 text-end mb-4 mb-sm-0 d-flex justify-content-end">
+            <div class=" dropdown position-relative">
+                <a href="#" class="btn btn-outline-secondary me-2" data-bs-toggle="dropdown" data-bs-display="static">
+                     {{t("Options")}} <i class="ms-2 fas fa-chevron-down "></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                    
+                    <a data-toggle="modal" data-target="#invalider-le-paiement" class="dropdown-item " href="#" >Invalider le paiement</a>
+                    <a class="dropdown-item"
+                        href="?item_id={{d.program_id}}&action=edit">Fermer le dossier</a>
+                </div>
+            </div>
+			<div>
+                <a href="/admin/formations/programs/items" class="btn btn-success"> 
+                    <span class="fas fa-arrow-down"></span>
+                    {{t("Télécharger")}}</a>
+            </div>
+		</div-->
+
+	</div>
+  <div class="my-4">
+    <p>Niveau de remplissage du dossier</p>
+    <div class="progress " role="progressbar" aria-label="Warning example" aria-valuenow="75"
+          aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar bg-warning text-dark" style="width: {{ ((data.application_step matches '/^\\d+$/' ? data.application_step : 1) / 9 ) * 100}}%">{{(((data.application_step matches '/^\\d+$/' ? data.application_step : 1) / 9 ) * 100)|round}}%</div>
+      </div>
+  </div>
+    {{resume|raw}}
+</div>
+<div class="modal fade" id="invalider-le-paiement" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Recipient:</label>
+              <input type="text" class="form-control" id="recipient-name">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Message:</label>
+              <textarea class="form-control" id="message-text"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Send message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+	document.addEventListener("DOMContentLoaded", function () { // Datatables clients
+		/*$("#datatables-clients").DataTable({
+			responsive: true,
+			order: [
+				[1, "asc"]
+			]
+		});*/
+
+
+	});
+</script>
+
+{% endblock %}

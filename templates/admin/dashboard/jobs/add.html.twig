@@ -1,0 +1,195 @@
+{% extends 'admin/dashboard/base.html.twig'%}
+{% block content %}
+<style>
+    #program_goals [data-type='container'] >*:nth-child(2n + 1) {
+        background-color: #eee;
+    }
+</style>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-12 mx-auto ">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3 class="c">{{ data.job_id is not empty ?"Editer un":'Créer un nouveau '}}{{t("  job ")}}</h3>
+
+            </div>
+            <div class="error-form"></div>
+            <div class=" mt-4 create-content" >
+                <form class="group-form">
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Nom du job")}}</label>
+                        <input type="text" name="title" class="form-control form-control-lg "
+                            value="{{data.job_title|raw}}">
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Type de job")}}</label>
+                        <select name="type" class="form-select form-select-lg">
+                            <option value="FULLTIME" {{ data.job_type == "FULLTIME" ? "selected='selected'":"" }}>{{t("Temps Plein")}}</option>
+                            <option value="PARTIAL-TIME" {{ data.job_type == "PARTIAL-TIME" ? "selected='selected'":"" }}>{{t("Temps Partiel")}}</option>
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Flexibilité du job")}}</label>
+                        <select name="flexibility" class="form-select form-select-lg">
+                            <option value="PRESENTIAL" {{ data.job_flexibility == "PRESENTIAL" ? "selected='selected'":"" }}>{{t("Présentiel")}}</option>
+                            <option value="ONLINE" {{ data.job_flexibility =="ONLINE"? "selected='selected'":"" }}>{{t("En Ligne")}}</option>
+                            <option value="ONLINE-PRESENTIAL" {{ data.job_flexibility =="ONLINE-PRESENTIAL"? "selected='selected'":"" }}>{{t("Présentiel/En Ligne")}}</option>
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Domaine")}}</label>
+                        <select name="sector_id" class="form-select form-select-lg">
+                            {% for s in sector %}
+                            <option value="{{s.sector_id}}" {{ data.job_sector_id == s.sector_id ? "selected='selected'":"" }}>{{s.sector_name|raw}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Description du groupe")}}</label>
+                        <div class=" form-wysiwyg">
+                            <div class="clearfix mt-4">
+                                <div id="quill-toolbar" class="rounded-top-lg">
+                                    <span class="ql-formats">
+                                        <select class="ql-size"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-header" value="1"></button>
+                                        <button class="ql-header" value="2"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <button class="ql-indent" value="-1"></button>
+                                        <button class="ql-indent" value="+1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-direction" value="rtl"></button>
+                                        <select class="ql-align"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-clean"></button>
+                                    </span>
+                                </div>
+                                <div id="quill-editor" class="rounded-bottom-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Frais d'admission en Euro")}}</label>
+                        <input type="text" name="application_fees"  class="form-control form-control-lg "
+                            value="{{data.job_application_fees??70}}">
+                    </div>
+                    <div class="py-4 mt-5  border-bottom">
+                        <div id="required_competences">
+                            <div >
+                                <label class="mb-1">{{t("Les compétences  requises ")}}</label>
+                                <div class="d-flex">
+                                    <textarea name="required_competences" placeholder="{{t("Ajouter une nouvelle compétence")}}" type="text"  class="form-control-lg  form-control form-control-lg "></textarea>
+                                    <div>
+                                        <button data-type="element" class=" btn btn-primary"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div  data-type="container" class=" mt-4">
+                                <p class="my-5 text-center">{{t("Aucune compétence ajoutée")}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="py-4 mt-5  border-bottom">
+                        <div id="required_documents">
+                            <div >
+                                <label class="mb-1">{{t("Les documens  requises ")}}</label>
+                                <div class="d-flex">
+                                    <textarea name="required_documents" placeholder="{{t("Ajouter un nouveau document")}}" type="text"  class="form-control-lg  form-control form-control-lg "></textarea>
+                                    <div>
+                                        <button data-type="element" class=" btn btn-primary"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div  data-type="container" class=" mt-4">
+                                <p class="my-5 text-center">{{t("Aucun document ajouté")}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                    <div class="p-4 text-center">
+                        <button type="submit" class="btn-lg btn btn-primary">{{data.job_id ? t("Editer"):t("Créér & Continuer")}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var quilInitialDescription="{{data.job_description |raw}}"
+    var item_id="{{ data.job_id is not empty ? data.job_id:''}}";
+    var required_competences = JSON.parse({{(data.job_required_competences?? "[]")|json_encode()|raw}});
+    var required_documents =JSON.parse({{(data.job_required_documents ?? "[]")|json_encode()|raw}});
+
+    window.onload = function () {
+    
+        function addEvent(container, dataName){
+            $(container+" [data-type='container'] button").on("click", (e)=>{
+                console.log("here", $(e.currentTarget).data("index"));
+                e.preventDefault()
+                window[dataName]= window[dataName].filter((v, i)=>i !=$(e.currentTarget).data("index"))
+                renderGoals(container,  dataName)
+            })
+        }
+
+        function renderGoals(container, dataName){
+            const formated = []
+            for (let i in  window[dataName]) {
+                formated.push(`
+                <div class=" d-flex justify-content-between p-2 align-items-center">
+                    <div class="col-11">
+                        <h5 class="m-0">${ window[dataName][i]}</h5>
+                    </div>
+                    <div  class="col-1">
+                        <button class="btn" data-index="${i}"><i class="fas fa-close"></i></button>
+                    </div>
+                </div>
+
+            `)
+            }
+            $(container+" [data-type='container']").html(formated.join(""))
+            $(container+"  textarea").val("")
+            addEvent(container, dataName)
+        }
+
+        function initOptionsSelection(container, dataName){
+            $(container+" [data-type='element']").on("click", (e) => {
+                e.preventDefault();
+                if($(container+"  textarea").val()){
+                    window[dataName].push(...$(container+"  textarea").val().split('\n').filter(x=>x));
+                    renderGoals(container+"", dataName)
+                }
+            })
+            renderGoals(container, dataName)
+        }
+          
+        
+        initOptionsSelection("#required_competences", "required_competences")
+
+        initOptionsSelection("#required_documents", "required_documents")
+        
+        new Jobs();
+    }
+
+   
+</script>
+
+
+{% endblock %}

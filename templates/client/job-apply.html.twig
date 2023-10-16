@@ -1,0 +1,151 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<!-- about page start here  -->
+<div class="course-details-wrapper single-page-section-top-space single-page-section-bottom-space">
+    <div class="container custom-container-01">
+        <div class="row">
+            <div class="mx-auto col-lg-7 col-xl-8 ">
+                <!-- breadcrumb area start here  -->
+                <div class="breadcrumb-wrap style-01" style="margin-bottom: 30px !important; padding:0px">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb-content">
+                                <h3 class="title ">{{data.job_title|capitalize}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- breadcrumb area end here  -->
+
+                <!-- course details area start hare  -->
+                <div class="course-derails-inner  bg-white course-as-product-wrap p-5">
+
+                    {% if data.job_description is not empty %}
+                    <div class="about-course mt-4">
+
+                        <h3 class="details-title text-primary">{{t("Description du Job")}}</h3>
+
+                        <p class="paragraph">
+                            {{data.job_description}}
+                        </p>
+
+                    </div>
+
+                    {% endif %}
+                    <div class="row">
+                        
+                        {% if data.program_targeted_jobs is not empty %}
+                        <div class="about-course mt-4 col-lg-6">
+                            <h3 class="details-title">{{t("Les Professions Visés")}}</h3>
+
+                            <ul class="ul check-point-list style-01 v-03">
+                                {% for d in json_decode(data.program_targeted_jobs) %}
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{d}}</p>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% if data.program_job_callings is not empty %}
+                        <div class="about-course mt-4  col-lg-6">
+                            <h3 class="details-title">{{t("Les Débouchés")}}</h3>
+
+                            <ul class="ul check-point-list style-01 v-03">
+                                {% for d in json_decode(data.program_job_callings) %}
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{d}}</p>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="course-tutorial">
+                        <section class="category-section-area mt-4">
+                            <div class="container custom-container-01 p-0">
+                                <div class="row">
+                                    <div class="section-title-wrapper p-0  d-flex justify-content-between mb-4">
+                                        <h4 class="mb-lg-0 px-2 text-primary">{{t("Détails du job")}}</h4>
+                                        
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6>{{t("Secteur ")}}</h6>
+                                    <p class="paragraph ms-3">{{data.sector_name}}</p>
+                                </div>
+                                <div class="row">
+                                    <div class="mt-4 col-12 ">
+                                        <h6 class="">{{t("Compétences requises")}}</h6>
+                                        <ul class=" check-point-list mt-2">
+                                            {% for i in json_decode(data.job_required_competences) %}
+                                            <li class="single-check-point mt-2">
+                                                <p class="paragraph">
+                                                    <span class="icon-wrap">
+                                                        <i class="fa-solid fa-check icon"></i>
+                                                    </span>
+                                                    <span class="ms-3">{{i}}</span>
+                                                </p>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    <div class="mt-4 col-12 ">
+                                        <h6 class="">{{t("Documents requis")}}</h6>
+                                        <ul class=" check-point-list mt-2">
+                                            {% for i in json_decode(data.job_required_competences) %}
+                                            <li class="single-check-point mt-2">
+                                                <p class="paragraph">
+                                                    <span class="icon-wrap">
+                                                        <i class="fa-solid fa-check icon"></i>
+                                                    </span>
+                                                    <span class="ms-3">{{i}}</span>
+                                                </p>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                               
+                                <div class="mt-4">
+
+                                </div>
+                            </div>
+                        </section>
+                        
+                    </div>
+                    <div class="mt-4">
+                        <style>
+                            .postuler:hover{
+                                color:#fff !important;
+                            }
+                        </style>
+                        <button    class="postuler text-primary w-100  mx-auto btn btn-common btn-primary">
+                            {{t("Postuler")}}
+                        </button>
+                    </div>
+                </div>
+                <!-- course details area end hare  -->
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- about page end here  -->
+{% endblock %}

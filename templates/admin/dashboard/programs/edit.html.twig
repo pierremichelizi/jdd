@@ -1,0 +1,241 @@
+{% extends 'admin/dashboard/base.html.twig'%}
+{% block content %}
+<style>
+    #program_goals [data-type='container'] >*:nth-child(2n + 1) {
+        background-color: #eee;
+    }
+</style>
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-12 col-md-8 mx-auto ">
+            <h4 class="c">{{t("Créer un nouveau programme de formation")}}</h4>
+            <div class="card mt-4">
+                <div class="error-form"></div>
+                <form class="card-body formation-form">
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Icon du programme")}}</label>
+                        <div style="max-width: 100px; height:100px"
+                            class=" rounded-pill relative icon-file-selector  rounded-lg  shadow text-lg d-flex justify-content-center align-items-center">
+                            <input type="file" name="icon" />
+                            <i class="fas fa-image image_icon"></i>
+                            <button style="width:10px; height:10px;"
+                                class="close absolute shadow-lg rounded-full p-2 bg-white border-0 d-none">
+                                <i class="fas fa-close"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Nom du programme")}}</label>
+                        <input type="text" name="program_name" class="form-control form-control-lg "
+                            value="{{data.program_name}}">
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Code du programme")}}</label>
+                        <input type="text" name="program_code" class="form-control form-control-lg "
+                            value="{{data.program_code}}">
+                    </div>
+                    <div class="input-group-lg mt-4">
+                        <label class="mb-1">{{t("Description du programme")}}</label>
+                        <div class=" form-wysiwyg">
+                            <div class="clearfix mt-4">
+                                <div id="quill-toolbar" class="rounded-top-lg">
+                                    <span class="ql-formats">
+                                        <select class="ql-size"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-header" value="1"></button>
+                                        <button class="ql-header" value="2"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <button class="ql-indent" value="-1"></button>
+                                        <button class="ql-indent" value="+1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-direction" value="rtl"></button>
+                                        <select class="ql-align"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-clean"></button>
+                                    </span>
+                                </div>
+                                <div id="quill-editor" class="rounded-bottom-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Condition d'admission")}}</label>
+                        <div class=" form-wysiwyg">
+                            <div class="clearfix mt-4">
+                                <div id="quill-toolbar-conditions" class="rounded-top-lg ">
+                                    <span class="ql-formats">
+                                        <select class="ql-size"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-bold"></button>
+                                        <button class="ql-italic"></button>
+                                        <button class="ql-underline"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <select class="ql-color"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-header" value="1"></button>
+                                        <button class="ql-header" value="2"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-list" value="ordered"></button>
+                                        <button class="ql-list" value="bullet"></button>
+                                        <button class="ql-indent" value="-1"></button>
+                                        <button class="ql-indent" value="+1"></button>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-direction" value="rtl"></button>
+                                        <select class="ql-align"></select>
+                                    </span>
+                                    <span class="ql-formats">
+                                        <button class="ql-clean"></button>
+                                    </span>
+                                </div>
+                                <div id="quill-editor-conditions" class="rounded-bottom-lg"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Le secteur de formation")}}</label>
+                        <select name="sector" class="form-select form-select-lg">
+                            {% for s in sectors %}
+                            <option value="{{s.sector_id}}" {{ data.program_sector_id == s.sector_id ? "selected='selected'":"" }}>{{s.sector_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mt-4">
+                        <label class="mb-1">{{t("Le diplome du programme")}}</label>
+                        <select name="diploma" class="form-select form-select-lg">
+                            {% for s in diplomas %}
+                            <option value="{{s.diploma_id}}" {{ data.program_diploma_id == s.diploma_id ? "selected='selected'":"" }}>{{s.diploma_name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--div class="py-4 mt-5  border-bottom">
+                        <div id="program_goals">
+                            <div >
+                                <label class="mb-1">{{t("Les Objectifs du programme")}}</label>
+                                <div class="d-flex">
+                                    <textarea placeholder="{{t("Ajouter un nouvel objectif")}}" type="text"  class="form-control-lg  form-control form-control-lg "></textarea>
+                                    <div>
+                                        <button data-type="element" class=" btn btn-primary"><i class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div  data-type="container" class=" mt-4">
+                                <p class="my-5 text-center">{{t("Aucun objectif ajouté")}}</p>
+                            </div>
+                        </div>
+                    </div-->
+                    <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                    <div class="p-4 text-center">
+                        <button type="submit" class="btn-lg btn btn-primary">{{data.program_id ? t("Editer"):t("Créér")}}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var quilInitialDescription="{{data.program_goal_description}}"
+    var quilInitialConditions="{{data.program_admission_terms}}"
+    var goals = [];
+    var item_id="{{item_id ? item_id:''}}";
+    window.onload = function () {
+        
+        
+        /*function addEvent(container){
+            $(container+" [data-type='container'] button").on("click", (e)=>{
+                console.log("here", $(e.currentTarget).data("index"));
+                e.preventDefault()
+                goals=goals.filter((v, i)=>i !=$(e.currentTarget).data("index"))
+                console.log(goals)
+                renderGoals(container)
+            })
+        }
+
+        function renderGoals(container){
+            const formated = []
+            for (let i in goals) {
+                formated.push(`
+                <div class=" d-flex justify-content-between p-2 align-items-center">
+                    <div class="col-11">
+                        <h5 class="m-0">${goals[i]}</h5>
+                    </div>
+                    <div  class="col-1">
+                        <button class="btn" data-index="${i}"><i class="fas fa-close"></i></button>
+                    </div>
+                </div>
+
+            `)
+            }
+            $(container+" [data-type='container']").html(formated.join(""))
+            $(container+"  textarea").val("")
+            addEvent(container)
+        }
+
+        function initOptionsSelection(container){
+            $(container+" [data-type='element']").on("click", (e) => {
+                e.preventDefault();
+                if($(container+"  textarea").val()){
+                    goals.push($(container+"  textarea").val());
+                    renderGoals(container+"")
+                }
+            })
+            renderGoals(container)
+        }
+          
+        
+        initOptionsSelection("#program_goals")*/
+
+        if("{{data.program_iconLogo}}"){
+            handleIconClick(".icon-file-selector", "{{data.program_iconLogo}}")
+        }
+        initFileInputPreviewer(".icon-file-selector");
+
+        
+        new Program();
+    }
+
+    /*    var isCenter = {{ isCenter ?isCenter: 0 }};
+        var parent = '{{parent.institution_id is not empty ? parent.institution_id  :  ""}}'
+    
+        var quilInitial = `{{data.institution_description|raw}}`
+        var itemsId = `{{data.institution_id}}`
+        document.addEventListener("DOMContentLoaded", function (e) {
+            $(".select2").each(function () {
+                $(this)
+                    .wrap("<div class=\"position-relative\"></div>")
+                    .select2({
+                        placeholder: "Sélectionner une langue",
+                        dropdownParent: $(this).parent()
+                    });
+            })
+            
+            if ("{{data.institution_logoUrl}}") {
+                handleIconClick(".icon-file-selector", "{{data.institution_logoUrl}}")
+            }
+        });*/
+</script>
+
+
+{% endblock %}

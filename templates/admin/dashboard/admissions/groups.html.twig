@@ -1,0 +1,109 @@
+{% extends 'admin/dashboard/base.html.twig' %}
+{% block title %}Liste des institus | Administration | AdmissionFacile
+{% endblock %}
+{% block content %}
+<div class="container-fluid p-0">
+
+    <div class="d-flex justify-space-between row">
+        <div class="mb-4 col-12 col-sm-8  ">
+            <div class="d-flex w-100">
+                <h1 class="h3 mb-1 col-10">{{"Les Groupes d'admission"|trans}}</h1>
+            </div>
+
+            <p>{{t("Créer les pools d'admission aux programmes ")}}</p>
+        </div>
+        <div class=" col-sm-4 text-end mb-4 mb-sm-0 ">
+            <a href="/admin/formations/admission-groups" class="btn btn-outline-secondary">{{t("Ajouter")}}</a>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <table id="datatables-clients" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{t("Nom du groupe")}}</th>
+                                <th>{{t('Status')}}</th>
+                                <th>{{t('Institutions')}}</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in admissions %}
+                            <tr>
+                                <td>
+                                    {{d.admission_group_code}}
+                                </td>
+                                <td>
+                                    {{d.admission_group_name}}
+                                </td>
+
+                                <td>
+                                    {% if 'now'|date('U') >= d.admission_group_start_date|date("U") and 'now'|date('U') <
+                                    d.admission_group_close_date|date("U") %} <small
+                                        class="text-white bg-success rounded p-1">{{t("En Cours")}}</small>
+                                    {% else %}
+                                        {% if 'now'|date('U') > d.admission_group_close_date|date("U") %}
+                                        <small class="text-white bg-danger rounded p-1">{{t("Cloturé")}}</small>
+                                        {% else %}
+                                            {% if 'now'|date('U') < d.admission_group_start_date|date("U") %} 
+                                            <small  class="text-white bg-warning rounded p-1">{{t("Débute Prochainement")}}</small>
+                                            {% endif %}
+
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <p>{{d.institution_name}}</p>
+                                </td>
+                                <td>
+                                    <div class="dropdown position-relative">
+                                        <a href="#" class="btn btn-primary" data-bs-toggle="dropdown"
+                                            data-bs-display="static">
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item"
+                                                href="/admin/formations/admission-groups?item_id={{d.admission_group_id}}&action=edit">Editer</a>
+                                            <a class="dropdown-item"
+                                                href="/admin/formations/admission-groups/form/{{d.admission_group_id}}/rule">Regles
+                                                d'admission</a>
+                                            <a class="dropdown-item"
+                                                href="/admin/formations/admission-groups/form/{{d.admission_group_id}}/question">Questionnaire
+                                                d'admission</a>
+                                            <a class="dropdown-item delete-action-modal-btn text-white bg-danger"
+                                                href="#"
+                                                data-bs-action-url="/admin/formations/admission-groups?item_id={{d.admission_group_id}}&action=delete"
+                                                data-bs-toggle="modal"
+                                                data-bs-action-message="Voulez vous supprimer ce programme ?">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () { // Datatables clients
+        /*$("#datatables-clients").DataTable({
+            responsive: true,
+            order: [
+                [1, "asc"]
+            ]
+        });*/
+
+
+    });
+</script>
+
+{% endblock %}

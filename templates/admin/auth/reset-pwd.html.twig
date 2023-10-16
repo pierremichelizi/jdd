@@ -1,0 +1,82 @@
+{% extends "admin/base.html.twig" %}
+
+{% block body %}
+<div class="main d-flex justify-content-center w-100">
+	<main class="content d-flex p-0">
+		<div class="container d-flex flex-column">
+			<div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+
+						<div class="text-center mt-4">
+							<h1 class="h2">{{"Administration"|trans}}</h1>
+							<p class="lead">
+								{{"Réinitialisation de mot de passe "|trans}}
+							</p>
+						</div>
+
+						<div class="card">
+							<div class="card-body">
+								
+									{% if  errors.csrf_token %}
+									<div class="alert alert-danger p-2">
+									{% for error in errors.csrf_token %}
+									<span class="text-danger">{{error}}</span>
+									{% endfor %}
+								</div>
+								{% endif %}
+								
+								<div class="m-sm-3">
+											{% if  errors.form or errors.email or errors.password %}
+												<div class="alert p-2 px-3 alert-danger mb-2">
+												{{errors.form ? errors.form : "Erreur de connexion"}}
+												</div>
+											{% endif %}
+									
+									<form  method="post" action="/auth/admin/login">
+										<div class="mb-3">
+											<label class="form-label">{{t("Email")}}</label>
+											<input class="form-control form-control-lg" type="email" name="email" placeholder="{{t('Entrez votre email')}}"/>
+											{% if  errors.email %}
+												{% for error in errors.password %}
+												<small class="text-danger">{{error}}</small>
+												{% endfor %}
+											{% endif %}
+										</div>
+										<div class="mb-3">
+											<label class="form-label">{{t("Mot de passe")}}</label>
+											<input class="form-control form-control-lg" type="password" name="password" placeholder="{{t('Entrez votre mot de passe')}}"/>
+											{% if  errors.password %}
+												{% for error in errors.password %}
+												<small class="text-danger">{{error}}</small>
+												{% endfor %}
+											{% endif %}
+
+											<small>
+												<a href='pages-reset-password.html'>{{t("Mot de passe oublié ?")}}</a>
+											</small>
+										</div>
+										<div>
+											<div class="form-check align-items-center">
+												<input id="customControlInline" type="checkbox" class="form-check-input" value="remember-me" name="remember-me" checked>
+												<label class="form-check-label text-small" for="customControlInline">{{t("Se Souvenir de moi")}}</label>
+											</div>
+										</div>
+										<input name="csrf_token"  type="hidden" value="{{csrf_token}}"/>
+										<div class="d-grid gap-2 mt-3">
+											<button class='btn btn-lg btn-primary' >Sign in</button>
+										</div>
+										
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+
+
+{% endblock %}

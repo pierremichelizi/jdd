@@ -1,0 +1,75 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+
+<div class="mt-4">
+
+    <div class="row">
+        <div class=" col-12 col-sm-9 col-md-7 col-lg-5 mx-auto px-4" style="max-width: 800px;">
+            <div class="card  p-4 p-xl-5" style="border-radius: 20px;">
+                <h3 class="text-primary">{{t("Confirmation de paiement")}}</h3>
+                <form class="form form_payment" action="POST" action="/auth/login">
+
+                    <div class="form-element">
+                        <div class="col-12  mt-4">
+                            <label class="mb-2" for="">Date</label>
+                            <input type="date" name="datetime" placeholder="{{t('Date du paiement')}}" required="">
+                        </div>
+                        <div class="col-12  mt-4">
+                            <label class="mb-2" for="">Preuve de paiement</label><br />
+                            <input type="file" name="proof" placeholder="{{t('')}}" required=""><br />
+                            <div class="mt-3">
+                                <small class="text-secondary">{{t("Vous devez téléverser un document attestant
+                                    formellement du paiement. Ceci peut etre le reçu délivré par votre banque apres la
+                                    paiement ou les détails de la transaction imprimés.")}}</small>
+                            </div>
+                        </div>
+                        <div class="mt-4 text-right">
+                            <button class="btn btn-common" type="submit">{{t("Soumettre")}}</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="instructors-wrapper single-page-section-bottom-space">
+
+
+
+</div>
+
+<script>
+    window.onload = function () {
+        $("form.form.form_payment").on("submit", function (e) {
+            e.preventDefault()
+            $(e.currentTarget)
+                .find('button[type="submit"]')
+                .attr("disabled", "disabled")
+                .addClass('disabled')
+                .prepend(`
+                    <div class="spinner-border spinner-border-sm" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                `)
+            submitForm(`form.form.form_payment`, "/payments/{{invoiceID}}/confirm", (result) => {
+                window.location.href=result?.redirect_to
+
+            }, null,  null, null, () => {
+                $(e.currentTarget)
+                    .find("button[type='submit']")
+                    .removeClass("disabled")
+                    .removeAttr("disabled")
+                    .find(".spinner-border")
+                    .remove();
+            })
+        })
+    }
+</script>
+
+{% endblock %}

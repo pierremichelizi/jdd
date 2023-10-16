@@ -1,0 +1,171 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<section class="apply-form-area-wrapper">
+    <div class="container custom-container-01">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="mb-5">
+                    <h2 class="mb-3">{{t("Demande d'emploi")}}</h2>
+                    <p style="">{{t('Nous prenons en charge tout le processus et vous aidons à trouvez le poste qui vous
+                        convienne le mieux chez nos centaines de partenaires')}}</p>
+                </div>
+                <div class="apply-form-inner">
+                    <div class="row justify-content-between">
+                        <div class="col-lg-12">
+                            <div class="contact-form">
+                                <form class="form">
+                                    <div class="part">
+                                        <h5 class="title">Information Personnelles</h5>
+                                        <div class="form-element">
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-user"></i>
+                                                    <input type="text" name="fullname" placeholder="{{t("Votre nom comple")}}" required="">
+                                                </div>
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-envelope-open"></i>
+                                                    <input type="email" name="email" placeholder="{{t("Votre nom famille")}}" required="">
+                                                </div>
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-phone"></i>
+                                                    <input type="tel" name="phone" placeholder="{{t("Votre téléphone")}}" required="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-element">
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-sharp fa-solid fa-earth-americas"></i>
+                                                    <select name="" id="">
+                                                        <option disabled selected hidden>{{t("Nationnalité")}}
+                                                        </option>
+                                                        {% for k,c in countries %}
+                                                        <option value="{{k}}">{{c}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                    <div class="ui calendar datepicker">
+                                                        <div class="ui input left">
+                                                            <input type="text" name="bithday" placeholder="{{t("Date de naisiance")}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-user"></i>
+                                                    <select name="" id="">
+                                                        <option disabled selected hidden>{{t('Genre')}}</option>
+                                                        <option value="M">Homme</option>
+                                                        <option value="F">Femme</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="part">
+                                        <h5 class="title">{{t("Sélectionner le pays dans lequel vous souhaitez travailler")}}</h5>
+
+                                        <ul class="ul selection-list">
+                                            <li>
+                                                <input type="radio" name="country">
+                                                <div class="thumb" style="width: 100px; border-radius: 100%; overflow: hidden;opacity: 0.8;">
+                                                    <img src="/assets/img/countries/flags/1x1/fr.svg"  alt="">
+                                                </div>
+
+                                                <div class="content">
+                                                    <h5 class="title">France</h5>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="country">
+                                                <div class="thumb">
+                                                    <img src="/assets/img/flag/02.png" alt="">
+                                                </div>
+
+                                                <div class="content">
+                                                    <h5 class="title">Canada</h5>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="country">
+                                                <div class="thumb" style="width: 100px; border-radius: 100%; overflow: hidden;opacity: 0.8;">
+                                                    <img src="/assets/img/countries/flags/1x1/ch.svg"  alt="">
+                                                </div>
+
+                                                <div class="content">
+                                                    <h5 class="title">Suisse</h5>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <input type="radio" name="country">
+                                                <div class="thumb" style="width: 100px; border-radius: 100%; overflow: hidden;opacity: 0.8;">
+                                                    <img src="/assets/img/countries/flags/1x1/de.svg"  alt="">
+                                                </div>
+
+                                                <div class="content">
+                                                    <h5 class="title">Allemagne</h5>
+                                                </div>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+
+                                    <div class="part">
+                                        <h5 class="title">Admission preference</h5>
+
+                                        <div class="form-element">
+                                            <div class="row">
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-sharp fa-solid fa-earth-americas"></i>
+                                                    <select name="" id="">
+                                                        <option disabled selected hidden> Study
+                                                            level
+                                                        </option>
+                                                        <option value="beginner">Beginner</option>
+                                                        <option value="intermediate">Intermediate</option>
+                                                        <option value="advance">Advance</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-user"></i>
+                                                    <select name="" id="">
+                                                        <option disabled selected hidden>Subject</option>
+                                                        <option value="english">English</option>
+                                                        <option value="bangla">Bangla</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-4 col-lg-4">
+                                                    <i class="fa-solid fa-calendar-days"></i>
+                                                    <div class="ui calendar datepicker">
+                                                        <div class="ui input left">
+                                                            <input type="text" placeholder="Start date">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-submit text-right">
+                                            <button type="submit" class="btn-common btn-active">submit
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

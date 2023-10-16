@@ -1,0 +1,134 @@
+{% extends 'admin/dashboard/base.html.twig' %}
+{% block title %}Liste des institus | Administration | AdmissionFacile
+{% endblock %}
+{% block content %}
+<div class="container-fluid p-0">
+
+    <div class="d-flex justify-space-between row">
+        <div class="mb-4 col-12 col-sm-8  ">
+            <div class="d-flex w-100">
+                <h1 class="h3 mb-1 col-10">{{"Les Diplomes"|trans}}</h1>
+            </div>
+
+            <p>{{t("Ajouter les différents diplomes de formation")}}</p>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h3>{{t("Ajouter un nouveau diplome")}}</h3>
+            <form class="mt-4" action="/admin/formations/diplomes?{{action ? "action="~action :""}}&{{item_id ? "item_id="~item_id :""}}" method="POST">
+                <div class="form-group-lg">
+                    <label for="">{{t("Nom du diplome")}}</label>
+                    <input type="text" name="diploma_name" class="form-control form-control-lg"
+                        value="{{formdata.diploma_name}}">
+                    {% if errors.diploma_name is not empty %}
+                    {% for error in errors.diploma_name %}
+                    <small class="text-danger">{{error}}</small>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group-lg">
+                    <label for="">{{t("Code du diplome")}}</label>
+                    <input type="text" name="diploma_code" class="form-control form-control-lg"
+                        value="{{formdata.diploma_code}}">
+                    {% if errors.diploma_code is not empty %}
+                    {% for error in errors.diploma_code %}
+                    <small class="text-danger">{{error}}</small>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="form-group-lg mt-4">
+                    <label for="">{{t("Description du diplome")}}</label>
+                    <textarea class="form-control form-control-lg" name="diploma_description"
+                        rows="4">{{formdata.diploma_description}}</textarea>
+                    {% if errors.diploma_description is not empty %}
+                    {% for error in errors.diploma_description %}
+                    <small class="text-danger">{{error}}</small>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                <div class="mt-4 align-right">
+                    <button class="btn btn-primary">{{action =="edit" ? t("Editer "): t("Ajouter")}}</button>
+                </div>
+            </form>
+        </div>
+        <div class="mt-4 mt-md-0 col-md-6 ">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-actions float-end">
+                    </div>
+                    <h5 class="card-title mb-0"></h5>
+                </div>
+                <div class="card-body">
+                    <table id="datatables-clients" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>{{t("Nom")}}</th>
+                                <th>{{t("Description")}}</th>
+                                <th>{{t("Actions")}}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for diploma in diplomas %}
+                            <tr>
+                                <td>{{diploma.diploma_name}}</td>
+                                <td>{{diploma.diploma_description}}</td>
+                                <td>
+                                    <div class="dropdown position-relative">
+                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-primary" data-bs-display="static">
+                                            Options
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end" >
+                                            <a class="dropdown-item"
+                                            href="/admin/formations/diplomes?action=edit&item_id={{diploma.diploma_id}}">Editer</a>
+                                            <button class="dropdown-item diploma-delete-action text-white bg-danger"
+                                                data-target-url="/admin/formations/diplomes?action=delete&item_id={{diploma.diploma_id}}" data-bs-toggle="modal"
+                                                data-bs-target="#delete-modal">Supprimer</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="delete-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title text-lg" id="staticBackdropLabel">Vous etes sur de vouloir supprimer ce secteur ? </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <a type="button" href="" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</a>
+                    <a type="button" class="btn btn-danger delete">Supprimer</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () { // Datatables clients
+        $("#datatables-clients").DataTable({});
+        $(".diploma-delete-action").click(function(e){
+            url=$(e.target).data("target-url")   ;
+            $("#delete-modal .delete").off("click");
+            $("#delete-modal .delete").on("click", function(e){
+                window.location.href=url;
+                
+            })
+        })
+    });
+</script>
+
+{% endblock %}

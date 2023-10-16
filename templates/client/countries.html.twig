@@ -1,0 +1,65 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<!-- about page start here  -->
+<div class="instructors-wrapper single-page-section-bottom-space">
+
+    <!-- breadcrumb area start here  -->
+    <div class="breadcrumb-wrap style-01">
+        <div class="container custom-container-01">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content py-3">
+                        <h3 class="title">{{t("Pays Supportés")}}</h3>
+                        <p class="details">{{t('Rechercher et trouver en quelques minutes vos programmes dans tous ces
+                            pays')}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end here  -->
+
+    <!-- teem area start here  -->
+    <section class="our-team-area-wrapper">
+        <div class="our-team-inner">
+            <div class="container custom-container-01">
+                <div class="destination-items-wrap style-01">
+                    {% for c in towns|slice(0, 6) %}
+                    <a href="/catalogue?countries={{c.town_country}}" class="destination-single-item">
+                        <div class="thumbnail">
+                            <img src="/assets/img/countries/{{c.town_country}}.png" alt="">
+                        </div>
+                        <h6 class="name">{{countries[c.town_country]["name"] ? countries[c.town_country]["name"]
+                            :c.town_country }}</h6>
+                    </a>
+                    {% endfor %}
+
+                    <!--div class="destination-single-item">
+                        <div class="thumbnail">
+                            <img src="/assets/img/sections/destination/franch.png" alt="">
+                        </div>
+                        <h6 class="name">French</h6>
+                    </div>
+                    <div class="destination-single-item">
+                        <div class="thumbnail">
+                            <img src="/assets/img/sections/destination/swideen.png" alt="">
+                        </div>
+                        <h6 class="name">Sweden</h6>
+                    </div>
+                    <div class="destination-single-item">
+                        <div class="thumbnail">
+                            <img src="/assets/img/sections/destination/italy.png" alt="">
+                        </div>
+                        <h6 class="name">Italy</h6>
+                    </div-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- teem area end here  -->
+</div>
+<!-- about page end here  -->
+{% endblock %}

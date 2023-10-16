@@ -1,0 +1,94 @@
+{% extends 'admin/dashboard/base.html.twig' %}
+{% block title %}Liste des institus | Administration | AdmissionFacile
+{% endblock %}
+{% block content %}
+<div class="container-fluid p-0">
+
+	<div class="d-flex justify-space-between row">
+		<div class="mb-4 col-12 col-sm-8  ">
+			<div class="d-flex w-100">
+				<h1 class="h3 mb-1 col-10">{{"Les Instituts de formation"|trans}}</h1>
+			</div>
+
+			<p>{{t("Ajouter les informations relatives aux institutions universitaires")}}</p>
+		</div>
+		<div class=" col-sm-4 text-end mb-4 mb-sm-0 ">
+			<a href="/admin/institutions/items" class="btn btn-outline-secondary">{{t("Ajouter")}}</a>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-body">
+					<table id="datatables-clients" class="table table-striped" style="width:100%">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>{{t("Nom de l'initution")}}</th>
+								<th>{{t('Type d\'institution')}}</th>
+								<th>{{t("Site Web")}}</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for d in institutions %}
+							<tr>
+								<td>
+									{% if d.institution_logoUrl %}
+									<img src="{{d.institution_logoUrl}}" class="card-image my-n1" alt="Avatar">
+									{% endif %}
+								</td>
+								<td>
+									<a href="/admin/institutions/items/details/{{d.institution_id}}">{{d.institution_name}}</a>
+									</td>
+								<td>
+									{{d.institution_type=="PROFESIONNAL_CENTER" ? "Centre Professionnel":""}}
+									{{d.institution_type=="UNIVERSITY" ? "Université":""}}
+									{{d.institution_type=="SCHOOL" ? "Ecole":""}}
+									{{d.institution_type=="OTHER" ? "Autres":""}}
+								</td>
+								<td>
+									<a href="{{d.institution_website_url}}">
+										{{d.institution_website_url}}
+									</a>
+								</td>
+								<td>
+									<div class="dropdown position-relative">
+										<a href="#" class="btn btn-primary" data-bs-toggle="dropdown" data-bs-display="static">
+											<i class="fas fa-ellipsis-v"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-end">
+											<a class="dropdown-item"
+												href="/admin/institutions/items?item_id={{d.institution_id}}&action=edit">Editer</a>
+											<a class="dropdown-item delete-action-modal-btn text-white bg-danger" href="#"
+												data-bs-action-url="/admin/institutions/items?item_id={{d.institution_id}}&action=delete"  data-bs-toggle="modal"
+												data-bs-action-message="Voulez vous supprimer ce institut ? {{institution_isGroup ? "Tous les centres associés seront supprimés aussi."}} ">Supprimer</a>
+										</div>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function () { // Datatables clients
+		$("#datatables-clients").DataTable({
+			responsive: true,
+			order: [
+				[1, "asc"]
+			]
+		});
+
+
+	});
+</script>
+
+{% endblock %}

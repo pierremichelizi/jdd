@@ -1,0 +1,119 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+
+<div class="mt-4">
+
+    <div class="row">
+        <div class=" col-12 col-sm-9 col-md-7 col-lg-5 mx-auto px-4">
+            <div class="card  p-4 p-xl-5" style="border-radius: 20px;">
+                <h5>{{t("Inscription")}}</h5>
+                <p>{{t("Inscrivez vous et commençer suivre votre dossier ")}}</p>
+                <div>
+                    <div class="form-element">
+                        <div class="row">
+                            <div class="contact-form">
+                                <div class="form-error hidden">
+                                    <div class="alert alert-danger">
+
+                                    </div>
+                                </div>
+                                <form class="form form_login" action="POST" action="/auth/login">
+
+                                    <div class="form-element">
+                                        <div class="row ">
+                                            <div class="col-12  mt-4">
+                                                <i class="fa-solid fa-user"></i>
+                                                <input type="text" name="fullname" placeholder="{{t('Nom Complet')}}"
+                                                    required="">
+                                            </div>
+                                            <div class="col-12  mt-4">
+                                                <i class="fa-solid fa-envelope-open"></i>
+                                                <input type="email" name="email" placeholder="{{t('Email')}}"
+                                                    required="">
+                                            </div>
+                                            <div class="col-12 mt-4 relative">
+                                                <i class="fa-solid fa-lock"></i>
+                                                <input type="password" name="password" placeholder="{{t(" Mot de passe")}}" required="">
+                                                <span class="displayer" style="position: absolute; top:3px; right:80px">
+                                                    <i class="fas fa-eye"></i>
+                                                    <i class="fas fa-eye-slash d-none"></i>
+                                                </span>
+                                            </div>
+                                            <input type="hidden" value="{{csrf_token}}" name="csrf_token">
+                                            <div class="col-12 mt-5">
+                                                <button type="submit" class="btn-common btn-active w-100">{{t("S'inscrire")}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="instructors-wrapper single-page-section-bottom-space">
+
+    <!-- breadcrumb area start here  -->
+    <!--div class="breadcrumb-wrap style-01">
+        <div class="container custom-container-01">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content py-3">
+                        <h3 class="title">{{t("Programmes & Formations")}}</h3>
+                        <p class="details">{{t('Rechercher et trouver en quelques minutes le programme qui vous
+                            correspond')}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div-->
+    <!-- breadcrumb area end here  -->
+
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", (e) => {
+        $("span.displayer").click((e)=>{
+            if($(e.currentTarget).find(".fa-eye-slash").hasClass('d-none')){
+                $(e.currentTarget).parent().find("input[type='password']").attr('type', "text")
+                $(e.currentTarget).find(".fa-eye").addClass('d-none')
+                $(e.currentTarget).find(".fa-eye-slash").removeClass('d-none')
+            }else{
+                $(e.currentTarget).parent().find("input[type='text']").attr('type', "password")
+                $(e.currentTarget).find(".fa-eye").removeClass('d-none')
+                $(e.currentTarget).find(".fa-eye-slash").addClass('d-none')
+            }
+        })
+        $("form.form.form_login").on("submit", (e) => {
+            e.preventDefault();
+            if(document.querySelector(".form-error .alert")){
+                document.querySelector(".form-error .alert").innerHTML = ""
+    
+            }
+            if (document.querySelector(".form-error") && !document.querySelector(".form-error")?.classList.contains("hidden")) document.querySelector(".form-error")?.classList.add("hidden");
+
+            submitForm("form.form.form_login", "/auth/signup", () => {
+                if (document.querySelector(".form-error") && !document.querySelector(".form-error")?.classList.contains("hidden")) document.querySelector(".form-error")?.classList.add("hidden");
+                window.location.href = "/email-verification/" + document.querySelector('input[type="email"]').value;
+            }, (name) => {
+
+                if (name == "form") {
+                    document.querySelector(".form-error")?.classList.remove("hidden");
+                    return document.querySelector(".form-error .alert")
+                }
+            })
+
+        })
+
+    })
+</script>
+{% endblock %}

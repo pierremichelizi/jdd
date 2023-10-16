@@ -1,0 +1,164 @@
+{% extends 'client/account-base.html.twig' %}
+
+
+{% block userContent %}
+<div>
+    <div class="row">
+        <div class="col-12 col-md-10 col-lg-8 mx-auto">
+            <div class="card" style="border-radius: 20px;">
+                <div class="card-body">
+                    <nav>
+                        <div class="nav nav-pills flex-column flex-sm-row" id="nav-tab" role="tablist">
+                            <button class="flex-sm-fill text-sm-center nav-link btn-common active"
+                                style="border-radius: 10px;" id="nav-home-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                aria-selected="true">Général</button>
+                            <button class="flex-sm-fill text-sm-center nav-link btn-common" style="border-radius: 10px;"
+                                id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button"
+                                role="tab" aria-controls="nav-profile" aria-selected="false">Sécurité</button>
+                        </div>
+                    </nav>
+                    <div class="tab-content general-form" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                            aria-labelledby="nav-home-tab" tabindex="0">
+                            <div class="form-error hidden">
+                                <div class="alert alert-danger">
+
+                                </div>
+                            </div>
+                            
+
+                            <form class="form general" method="POST">
+                                <div class="d-flex  justify-content-center mt-4">
+                                    <div class="position-relative overflow-hidden icon-file-selector rounded-pill text-lg d-flex  justify-content-center align-items-center"
+                                        style="background:#EBEBEB;width: 100px; height:100px">
+                                        <input type="file" accept="image/*" style="opacity: 0; position:absolute; inset:0;" name="user_image_url" />
+                                        <p class="text-center m-0">
+                                            <i class="fa fa-image"></i>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-element">
+                                    <div class="row ">
+                                        <div class="col-12  mt-4 ">
+                                            <i class="fa-solid fa-user"></i>
+                                            <input type="text" name="fullname" placeholder="{{t("Nom Complet")}}" required="" value="{{user.user_fullname}}">
+                                        </div>
+                                        <div class="col-12  mt-4">
+                                            <i class="fa-solid fa-envelope-open"></i>
+                                            <input type="text" name="email" placeholder="{{t("Email")}}" required="" value="{{user.user_email}}">
+                                        </div>
+                                        <input type="hidden" value="{{csrf_token}}" name="csrf_token">
+                                        <div class="col-12 mt-5 ">
+                                            <button
+                                                class="btn-common nav-btn border-0 w-100">{{t("Sauvegarder")}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="tab-pane fade  secure" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
+                            tabindex="0">
+                            <div class="form-error hidden">
+                                <div class="alert alert-danger">
+
+                                </div>
+                            </div>
+                            <form class="form security mt-4">
+                                <div class="form-element">
+                                    <div class="row ">
+                                        <div class="col-12 mt-4">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="text" placeholder="{{t("Ancien Mot de passe")}}" name="oldpassword" required="">
+                                        </div>
+                                        <div class="col-12 mt-4">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="text" placeholder="{{t("Nouveau Mot de passe")}}" name="password" required="">
+                                        </div>
+                                        <div class="col-12 mt-4">
+                                            <i class="fa-solid fa-lock"></i>
+                                            <input type="text" placeholder="{{t("Répéter le nouveau Mot de passe")}}" name="newpassword"  required="">
+                                        </div>
+                                        <input type="hidden" value="{{csrf_token}}" name="csrf_token">
+                                        <div class="col-12 mt-5 ">
+                                            <button class="btn-common nav-btn border-0 w-100">{{t("Changer le mot de
+                                                passe")}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", (e) => {
+        initFileInputPreviewer(".icon-file-selector")
+        if("{{user.user_imgUrl}}"){
+            handleIconClick(".icon-file-selector", "{{user.user_imgUrl}}")
+        }
+        let generaldisabled = false
+        document.querySelector("form.form.general").addEventListener("submit", (e)=>{
+            e.preventDefault();
+            if(generaldisabled){
+                return;
+            }else{
+                generaldisabled=true;
+            }
+            document.querySelector(".general-form .form-error .alert").innerHTML = ""
+            if (!document.querySelector(".general-form .form-error").classList.contains("hidden")) document.querySelector(".form-error")?.classList.add("hidden");
+            submitForm("form.general", "/user/profile", (d) => {
+                console.log(d)
+                generaldisabled=false;
+                window.location.reload()
+            }, (name) => {
+                generaldisabled=false;
+                if (name == "form") {
+                    document.querySelector(".general-form .form-error").classList.remove("hidden");
+                    return document.querySelector(".general-form .form-error .alert")
+                }
+            })
+        })
+        let secutrydisabled=false
+        document.querySelector("form.form.security").addEventListener("submit", (e)=>{
+            e.preventDefault();
+            if(secutrydisabled){
+                return;
+            }else{
+                secutrydisabled=true;
+            }
+            document.querySelector(".secure .form-error .alert").innerHTML = ""
+            if (!document.querySelector(".secure .form-error").classList.contains("hidden")) document.querySelector(".form-error")?.classList.add("hidden");
+            submitForm("form.form.security", "/user/profile/pwd", (d) => {
+                console.log(d)
+                window.location.reload()
+                secutrydisabled=false;
+            }, (name) => {
+                secutrydisabled=false;
+                if (name == "form") {
+                    document.querySelector(".secure .form-error").classList.remove("hidden");
+                    return document.querySelector(".secure .form-error .alert")
+                }
+            })
+        })
+
+
+        
+    })
+
+    document.addEventListener("DOMContentLoaded", function (e) {
+
+
+    });
+</script>
+{% endblock %}

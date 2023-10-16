@@ -1,0 +1,228 @@
+<div class="mt-4">
+    <div class="card bg-primary-l p-4" style="border-radius: 20px">
+        <div class="card-body">
+            <div class="d-flex pb-2 border-bottom justify-content-between">
+                <h6 class=" ">{{t("Groupe d'admission")}}</h6>
+            </div>
+            <div class="row">
+                <div class="mt-2 col-12 col-md-6 col-xl-4">
+                    <ul class="row gy-3 mt-2">
+                        <li>
+                            <p>{{t("Numéro de groupe")}}</p>
+                            <pclass="text-primary">{{data.admission_group_code}}</p>
+                        </li>
+                        <li>
+                            <p>{{t("Période d'admission")}}</p>
+                            <p class="text-primary">{{data.admission_group_start_date|date("d M")}} -
+                                {{data.admission_group_close_date|date("d M")}}</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <ul class="row gy-3 mt-2">
+                        <li>
+                            <p>{{t("Etablissement")}}</p>
+                            <p>
+                                <span class="text-primary">{{data.institution_name}} {{data.institution_parent is
+                                    not empty ? t("Centre"):""}}</span>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                {{t("Période du programme")}}
+                            </p>
+                            <p>
+                                <span class="text-primary">{{data.admission_group_program_start_date|date("d M")}}
+                                    - {{data.admission_group_program_close_date|date("d M")}}</span>
+                            </p>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-xl-4">
+                    <ul class="row gy-3 mt-2">
+                        <li>
+                            <p>
+                                {{t("Code Provision du dossier ")}}
+                            </p>
+                            <p>
+                                <span class="text-primary">{{data.application_code}}</span>
+                            </p>
+                        </li>
+                        <li>
+                            <p>
+                                {{t("Programme de formation")}}
+                            </p>
+                            <p>
+                                <span class="text-primary">{{data.program_name}}</span>
+                            </p>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Informations Personnelles")}}</h6>
+        <div class="row">
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Nom de famlle")}}</small></p>
+                <p>{{data.application_lastname}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Prénom")}}</small></p>
+                <p>{{data.application_firstname}}</p>
+            </div>
+            <div class="mt-2 col-12  col-md-6 col-xl-4 ">
+                <p class="text-primary"><small>{{t("Autres noms")}}</small></p>
+                <p>{{data.application_other_names}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Date de naissance")}}</small></p>
+                <p>{{data.application_birthday|date("d/m/Y")}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Lieu de naissance")}}</small></p>
+                <p>{{data.application_bith_location}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Sexe")}}</small></p>
+                <p>{{data.application_sex == "M" ? "Masculin":"Féminin"}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Votre courriel")}}</small></p>
+                <p>{{data.application_email}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Langue courramment parlée")}}</small></p>
+                <p>{{data.application_main_language}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <h6 class=" pb-2 mb-4 border-bottom">{{t("Informations des parents")}}</h6>
+        <div class="mt-4">
+            <p class=" pb-2"><strong>{{t("Informations du pere")}}</strong></p>
+            <div class="row">
+                <div class="mt-2 col-12 col-md-6 col-xl-4">
+                    <p class="text-primary"><small>{{t("Nom Complet")}}</small></p>
+                    <p>{{data.application_father_fullname}}</p>
+                </div>
+                <div class="mt-2 col-12 col-md-6 col-xl-4">
+                    <p class="text-primary"><small>{{t("Numéro de téléphone")}}</small></p>
+                    <p>{{data.application_father_phone}}</p>
+                </div>
+                <div class="mt-2 col-12  col-md-6 col-xl-4 ">
+                    <p class="text-primary"><small>{{t("Profession")}}</small></p>
+                    <p>{{data.application_father_job_title}}</p>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="mt-4">
+            <p class="pb-2"><strong>{{t("Informations de la mère")}}</strong></p>
+            <div class="row">
+                <div class="mt-2 col-12 col-md-6 col-xl-4">
+                    <p class="text-primary"><small>{{t("Nom Complet")}}</small></p>
+                    <p>{{data.application_mother_fullname}}</p>
+                </div>
+                <div class="mt-2 col-12 col-md-6 col-xl-4">
+                    <p class="text-primary"><small>{{t("Numéro de téléphone")}}</small></p>
+                    <p>{{data.application_mother_phone}}</p>
+                </div>
+                <div class="mt-2 col-12  col-md-6 col-xl-4 ">
+                    <p class="text-primary"><small>{{t("Profession")}}</small></p>
+                    <p>{{data.application_mother_job_title}}</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Adresse de résidence")}}</h6>
+        <div class="row">
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Pays de résidence")}}</small></p>
+                <p>{{countries[data.application_country]['name']}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Ville de résidence")}}</small></p>
+                <p>{{data.application_town}}</p>
+            </div>
+            <div class="mt-2 col-12  col-md-6 col-xl-4 ">
+                <p class="text-primary"><small>{{t("Code Postal")}}</small></p>
+                <p>{{data.application_postal_code}}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    {% if data.application_questions is not empty %}
+
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Questionnaires")}}</h6>
+        <div class="row">
+            {% for d in json_decode( data.application_questions) %}
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{d.question.admission_group_meta_value}}</small></p>
+                <p>{{d.candidate_response}}</p>
+            </div>
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+    {% endif %}
+    {% if data.application_rules is not empty %}
+
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Questionnaires")}}</h6>
+        <div class="row">
+            {% for d in json_decode( data.application_rules) %}
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{d.rule.admission_group_meta_value}}</small></p>
+                <p>{{d.candidate_response ? "Oui":"Non"}}</p>
+            </div>
+            {% endfor %}
+
+
+        </div>
+
+    </div>
+    {% endif %}
+
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Note additionnelle")}}</h6>
+        <div class="row">
+            <p>{{data.application_note}}</p>
+
+        </div>
+
+    </div>
+    
+    {% if data.invoice_id %}
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Facture")}}</h6>
+        <p>Payé le {{data.invoice_paid_at|date('d-m-Y')}}</p>
+        <div class="row">
+            <a href="{{data.invoice_payment_proof_file}}" download="download">Télécharger</a>
+
+        </div>
+
+    </div>
+    {% else %}
+        <p>Aucune facture payée</p>
+    {% endif %}
+
+</div>

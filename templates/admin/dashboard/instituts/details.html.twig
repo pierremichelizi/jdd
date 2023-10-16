@@ -1,0 +1,111 @@
+{% extends 'admin/dashboard/base.html.twig'%}
+{% block content %}
+<div class="container-fluid p-0">
+    <div class="row">
+        <div class="col-12 mx-auto row ">
+            {% if institution_logoUrl %}
+            <div class="col-12 col-md-2">
+                <div class="rounded-pill mx-auto"
+                    style="width: 100px; height:100px; background-color:#eee; background-image:url({{data.institution_logoUrl}})">
+                </div>
+            </div>
+            {% endif %}
+            <div class="col-12 {{institution_logoUrl ?' col-md-10':''}}">
+                <h4>{{data.institution_name}}</h4>
+                <div class="description-text text-collapse position-relative" style="height: 60px;">
+                    {{data.institution_description|raw}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="card mt-4">
+        <div class="card-body">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane"
+                        type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Centres de
+                        formations</button>
+                </li>
+                <!--li class="nav-item" role="presentation">
+                    <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane"
+                        type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Profile</button>
+                </li-->
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                    tabindex="0">
+                    <div class="d-flex justify-content-between py-4">
+                        <h4>{{t("Les Centres  de formation ")}}</h4>
+                        <div>
+                            <a href="/admin/institutions/items?center&parent_id={{data.institution_id}}" class="btn btn-outline-secondary">{{t("Ajouter")}}</a>
+                        </div>
+                    </div>
+                    <table id="datatables-clients" class="table table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>{{t("Nom de l'initution")}}</th>
+                                <th>{{t('Type d\'institution')}}</th>
+                                <th>{{t("Site Web")}}</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for d in institutions %}
+                            <tr>
+                                <td>
+                                    {% if d.institution_logoUrl %}
+                                    <img src="{{d.institution_logoUrl}}" class="card-image my-n1" alt="Avatar">
+                                    {% endif %}
+                                </td>
+                                <td>{{d.institution_name}}</td>
+                                <td>
+                                    {{d.institution_type=="PROFESIONNAL_CENTER" ? "Centre Professionnel":""}}
+                                    {{d.institution_type=="UNIVERSITY" ? "Université":""}}
+                                    {{d.institution_type=="SCHOOL" ? "Ecole":""}}
+                                    {{d.institution_type=="OTHER" ? "Autres":""}}
+                                </td>
+                                <td>
+                                    <a href="{{d.institution_website_url}}">
+                                        {{d.institution_website_url}}
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="dropdown position-relative">
+                                        <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                            <i class="align-middle" data-feather="more-vertical"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a class="dropdown-item"
+                                                href="/admin/institutions/items?item_id={{d.institution_id}}&action=edit&center&&parent_id={{data.institution_id}}">Editer</a>
+                                            <a class="delete-action-modal-btn dropdown-item  text-white bg-danger"
+                                                href="#" data-bs-action-url="{{d.institution_id}}"
+                                                data-bs-toggle="modal"
+                                                data-bs-action-message="Vous voulez vraiment supprimé ce centre ?">Supprimer</a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+                    </table>
+                </div>
+                <!--div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                    tabindex="0">...</div-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    
+    window.onload = () => {
+        $(".description-text").on("click", (e) => {
+            console.log("click")
+            $(e.currentTarget).toggleClass("text-collapse");
+            $(e.currentTarget).toggleClass("h-auto")
+        })
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+<div class="mt-4">
+
+    <div class="mt-4">
+        <h6 class="border-bottom pb-2">{{t("Informations Personnelles")}}</h6>
+        <div class="row">
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Nom Complet")}}</small></p>
+                <p>{{data.job_application_fullname}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Email")}}</small></p>
+                <p>{{data.job_application_email}}</p>
+            </div>
+            <div class="mt-2 col-12  col-md-6 col-xl-4 ">
+                <p class="text-primary"><small>{{t("Téléphone")}}</small></p>
+                <p>{{data.job_application_phone}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Date de naissance")}}</small></p>
+                <p>{{data.job_application_bithday|date("d/m/Y")}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Nationalité")}}</small></p>
+                <p>{{countries[data.job_application_nationality].name}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Pays de résidence")}}</small></p>
+                <p>{{countries[data.job_application_country].name}}</p>
+            </div>
+            <div class="mt-2 col-12  col-md-6 col-xl-4 ">
+                <p class="text-primary"><small>{{t("Adresse")}}</small></p>
+                <p>{{data.job_application_adress}}</p>
+            </div>
+            <div class="mt-2 col-12 col-md-6 col-xl-4">
+                <p class="text-primary"><small>{{t("Sexe")}}</small></p>
+                <p>{{data.job_application_sex == "M" ? "Masculin":"Féminin"}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4">
+        <h6 class=" pb-2 mb-4 border-bottom">{{t("Documents à fournir")}}</h6>
+        <div class="mt-4">
+            {% for i, k in json_decode(data.job_required_documents, true) %}
+            <p class=" pb-2"><strong>{{k}}</strong></p>
+            <a href="{{json_decode(data.job_application_required_documents, true)[i]}}" class="text-primary" download="">{{t("Télécharger")}}</a>
+            {% endfor %}
+
+        </div>
+        
+    </div>
+
+
+
+</div>

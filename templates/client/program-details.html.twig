@@ -1,0 +1,245 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<!-- about page start here  -->
+<div class="course-details-wrapper single-page-section-top-space single-page-section-bottom-space">
+    <div class="container custom-container-01">
+        <div class="row">
+            <div class="col-lg-7 col-xl-8">
+                <!-- breadcrumb area start here  -->
+                <div class="breadcrumb-wrap style-01" style="margin-bottom: 30px !important; padding:0px">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb-content">
+                                <h3 class="title">{{data.program_name|raw}}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- breadcrumb area end here  -->
+
+                <!-- course details area start hare  -->
+                <div class="course-derails-inner">
+                    <!--div class="feedback-and-review">
+                        <div class="feedback">
+                            <i class="fa-solid fa-star icon active"></i>
+                            <i class="fa-solid fa-star icon active"></i>
+                            <i class="fa-solid fa-star icon active"></i>
+                            <i class="fa-solid fa-star icon active"></i>
+                            <i class="fa-solid fa-star icon"></i>
+                            <span class="numb">4.8 de popularité </span>
+                        </div>
+                    </div-->
+                    {% if data.program_goal_description is not empty %}
+                    <div class="about-course mt-4">
+
+                        <h3 class="details-title">{{t("Les Objectifs Du Programme")}}</h3>
+
+                        <p class="paragraph">
+                            {{data.program_goal_description|raw}}
+                        </p>
+
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        
+                        {% if data.program_targeted_jobs is not empty %}
+                        <div class="about-course mt-4 col-lg-6">
+                            <h3 class="details-title">{{t("Les Professions Visés")}}</h3>
+
+                            <ul class="ul check-point-list style-01 v-03">
+                                {% for d in json_decode(data.program_targeted_jobs) %}
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{d}}</p>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                        {% if data.program_job_callings is not empty %}
+                        <div class="about-course mt-4  col-lg-6">
+                            <h3 class="details-title">{{t("Les Débouchés")}}</h3>
+
+                            <ul class="ul check-point-list style-01 v-03">
+                                {% for d in json_decode(data.program_job_callings) %}
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{d}}</p>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="course-tutorial">
+                        <section class="category-section-area mt-4">
+                            <div class="container custom-container-01">
+                                <div class="row">
+                                    <div class="section-title-wrapper p-0 align-items-center d-flex justify-content-between">
+                                        <h3 class="mb-lg-0">{{t("Informations")}}</h3>
+                                        <ul class="nav nav-pills mt-0">
+                                            <li class="nav-item">
+                                                <a href="#" class="nav-link active" style="padding: 15px 20px;" data-bs-toggle="pill"
+                                                    data-bs-target="#discipline">{{t("Admission")}}</a>
+                                            </li>
+                                            <!--li class="nav-item">
+                                                <a href="#" class="nav-link" style="padding: 15px 20px;" data-bs-toggle="pill"
+                                                    data-bs-target="#collage">{{t("Contenu")}}</a>
+                                            </li-->
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="discipline">
+                                        <h5>{{t("Conditions d'admission")}}</h5>
+                                        <div class="mt-4">
+                                            {{data.program_admission_terms|raw}}
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="collage">
+                                        <h5>{{t("Le contenu du programme")}}</h5>
+                
+                                        <div class="course-video-wrap">
+                                            <div class="accordion-wrapper style-03">
+                                                <!-- accordion wrapper -->
+                                                {% set subjectHous = 0 %}
+                                                {% for k,s in subjects %}
+                                                <div id="accordion{{k}} ">
+                                                    <div class="card">
+                                                        <div class="card-header" id="heading{{k}}">
+                                                            <h5 class="mb-4">
+                                                                <a class="collapsed" role="button" data-bs-toggle="collapse"
+                                                                    data-bs-target="#collapse{{k}}" aria-expanded="false"
+                                                                    aria-controls="collapse{{k}}">
+                                                                    <p class="heading-text">{{s.program_subject_name}}</p>
+                                                                    <p class="details">{{s.program_subject_code}} • {{s.program_subject_hours_duration}} {{t("Heure(s)")}}</p>
+                                                                </a>
+                                                            </h5>
+                                                        </div>
+                                                        <div id="collapse{{k}}" class="collapse" data-bs-parent="#accordion{{k}}">
+                                                            <div class="card-body pt-0">
+                                                                <div class="row mb-4">
+                                                                    <div class="col-md-6">
+                                                                        <h6>{{t('Durée du programme')}}</h6>
+                                                                        <p>{{t(s.program_subject_hours_duration)}}</p>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <h6>{{t('Code du programme')}}</h6>
+                                                                        <p>{{t(s.program_subject_code)|raw}}</p>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="mb-4">
+                                                                    <h6>{{t('Description')}}</h6>
+                                                                <p>{{t(s.program_subject_description)|raw}}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                {% set subjectHous =  subjectHous + s.program_subject_hours_duration %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                    </div>
+
+                </div>
+                <!-- course details area end hare  -->
+            </div>
+
+            <div class="col-md-7 col-lg-5 col-xl-4">
+                <div class="course-as-product-wrap">
+                    <div class="content">
+                        <div class="price-and-enroll text-success">
+                            <span class="price ">{{institutesCount}} {{t("Etablissements")}}</span>
+                            <span class="enroll text-success">
+                                {% if isActive %}
+                                <span>
+                                    <span style="width:10px; height:10px;"
+                                        class="d-inline-block   bg-success border border-light rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </span>
+                                <span>{{t(" Ouverte")}}</span>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="feature-wrap mt-4">
+                            <h5 class="mb-4">{{t("Détails Utiles")}}</h5>
+
+                            <ul class="ul check-point-list style-01 v-03">
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{t("Code")}} : {{data.program_code}}
+                                        </p>
+                                    </span>
+                                </li>
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{t("Diplome")}} : {{data.diploma_name}}
+                                        </p>
+                                    </span>
+                                </li>
+
+                                <!--li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{t("Nombres D'Unités")}} : {{subjects|length}}
+                                        </p>
+                                    </span>
+                                </li>
+                                <li class="single-check-point">
+                                    <span class="icon-wrap">
+                                        <i class="fa-solid fa-check icon"></i>
+                                    </span>
+                                    <span class="content">
+                                        <p class="text">{{t("Nombres Total d'heures")}} : {{subjectHous}} h
+                                        </p>
+                                    </span>
+                                </li-->
+
+                               
+                            </ul>
+                        </div>
+                        <div class="btn-wrap">
+                            <a href="/catalogue/{{data.program_id}}/institus" class="btn-common p-4 add-to-cart">Voir les établissements</a>
+                        </div>
+
+                        <p class="garunte-tag ">Veillez consulter les établissements offrant ce programme</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- about page end here  -->
+{% endblock %}

@@ -1,0 +1,680 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<!-- about page start here  -->
+<div class="instructors-wrapper single-page-section-bottom-space">
+
+    <div class="breadcrumb-wrap style-01">
+        <div class="container custom-container-01">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content ">
+                        <h3 class="title">{{t("Demande d'admission")}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- teem area start here  -->
+    {% if  data.application_is_paid != 1 %}
+    <section class="our-team-area-wrapper">
+        <div class="our-team-inner">
+            <div class="container custom-container-01">
+                <div class="">
+                    <div class="d-md-flex d-block align-items-start row form">
+                        <div class="p-4 col-md-4 col-xl-3 nav flex-column nav-pills pe-3" id="v-pills-tab"
+                            role="tablist" aria-orientation="vertical">
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link {{data.application_step is empty ?"active":"" }} button-step-1" id="v-pills-home-a"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-1" type="button" role="tab"
+                                aria-controls="v-pills-home" aria-selected="true" tabindex="-1">{{t("Consentement
+                                Personnelle")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 2 ?"active":"" }}
+                                {{data.application_step >= 2 ?"":"disabled" }} button-step-2" id="v-pills-profile-b"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-2" type="button" role="tab"
+                                aria-controls="v-pills-profile" aria-selected="false" {{data.application_step  >= 2 ?"":"" }} >{{t("Informations personnelles")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 3 ?"active":"" }}
+                                {{data.application_step >= 3 ?"":"disabled" }} button-step-3" id="v-pills-disabled-c"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-3" type="button" role="tab"
+                                aria-controls="v-pills-disabled" aria-selected="false" {{data.application_step  >= 3 ?"":"" }}
+                                tabindex="-1">{{t("Informations Additionnelles")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 4 ?"active":"" }}
+                                {{data.application_step  >= 4 ?"":"disabled" }} button-step-4" id="v-pills-messages-d"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-4" type="button" role="tab"
+                                aria-controls="v-pills-messages" aria-selected="false" {{data.application_step  >= 4 ?"":"" }}
+                                tabindex="-1">{{t("Coordonnées")}}</button>
+                            {% if questions is not empty %}
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 5 ?"active":"" }}
+                                {{data.application_step  >= 5 ?"":"disabled" }} button-step-5" id="v-pills-settings-e"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-5" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" {{data.application_step  >= 5 ?"":"" }}
+                                tabindex="-1">{{t("Questionnaire")}}</button>
+                            {% endif %}
+                            {% if rules is not empty %}
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 6 ?"active":"" }}
+                                {{data.application_step  >= 6 ?"":"disabled" }} button-step-6" id="v-pills-settings-f"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-6" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" {{data.application_step  >= 6 ?"":"" }}
+                                tabindex="-1">{{t("Règles d'admission")}}</button>
+                            {% endif %}
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 7 ?"active":"" }}
+                                {{data.application_step  >= 7 ?"":"disabled" }} button-step-7" id="v-pills-settings-g"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-7" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" {{data.application_step  >= 7 ?"":"" }}
+                                tabindex="-1">{{t("Note supplémentaire")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 8 ?"active":"" }}
+                                {{data.application_step  >=  8 ?"":"disabled" }} button-step-8" id="v-pills-settings-h"
+                                data-bs-toggle="pill" data-bs-target="#v-pills-8" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" {{data.application_step  >= 8 ?"":"" }}
+                                tabindex="-1">{{t("Révision du dossier")}}</button>
+                            <button style="border-radius:10px;padding: 15px; text-align:left"
+                                class="lh-1 btn-common nav-link 
+                                {{data.application_step == 9 ?"active":"" }}
+                                {{data.application_step  >= 9 ?"":"disabled" }} button-step-9 " id="v-pills-settings-i"
+                                
+                                data-bs-toggle="pill" data-bs-target="#v-pills-9" type="button" role="tab"
+                                aria-controls="v-pills-settings" aria-selected="false" {{data.application_step  >= 9 ?"":"" }}
+                                tabindex="-1">{{t("Soumission de dossier")}}</button>
+                        </div>
+                        <div class="col-md-8 col-xl-9 bg-white shadow p-4 " style="border-radius: 20px;">
+                            <div class="tab-content mt-5 mt-md-0" id="">
+                                <div class="tab-pane fade show active" id="v-pills-1" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <div>
+                                        <h5>{{t("Consentement de divulgation d'informations personnelles")}}</h5>
+
+                                        <div class="alert mt-4 alert-warning d-flex " role="alert">
+                                            <div>
+                                                <i class="fa fa-warning  "></i>
+                                            </div>
+                                            <div class="ms-4">
+                                                <p> {{t("Toutes les informations collectées dans ce processus
+                                                    d'admission
+                                                    seront utilisées pour traiter votre demande. Vos informations
+                                                    personnelles sont utilisées exclusivement pour le processus
+                                                    d'admission
+                                                    et partagées uniquement avec les établissements choisis. Aucune
+                                                    donnée
+                                                    ne sera divulguée à des tiers sans votre accord. Si votre demande
+                                                    est
+                                                    rejetée, vos données sont conservées à des fins d'archive, mais
+                                                    elles
+                                                    peuvent être supprimées sur demande")}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-5">
+                                            <p>
+                                                {{t("En soumettant ma demande d'admission via la plateforme
+                                                AdmissionFacile,
+                                                je consens à la collecte, au traitement et à la divulgation de mes
+                                                informations personnelles conformément aux termes énoncés ci-dessous
+                                                :")}}
+                                            </p>
+                                            <ol>
+                                                <li>
+                                                    <strong>{{t("Divulgation aux Établissements de Formation
+                                                        :")}}</strong> {{t("Je
+                                                    comprends et j'accepte que mes informations personnelles, y compris
+                                                    mon nom, mes coordonnées, mon historique éducatif et tout autre
+                                                    détail nécessaire à l'admission, puissent être divulguées aux
+                                                    établissements de formation auxquels je postule. Cette divulgation a
+                                                    pour but de faciliter le processus d'admission et d'établir un lien
+                                                    entre moi et les écoles partenaires.")}}
+                                                </li>
+                                                <li>
+                                                    <strong>{{t("Utilisation Limitée :")}}</strong> {{t("J'accepte que
+                                                    mes
+                                                    informations personnelles ne seront utilisées que dans le cadre de
+                                                    mon processus d'admission et pour fournir des services liés à cette
+                                                    démarche. Je comprends que mes informations ne seront pas partagées
+                                                    avec des tiers sans mon consentement explicite.")}}
+                                                </li>
+                                                <li>
+                                                    <strong>{{t("Protection des Données :")}}</strong> {{t("Je reconnais
+                                                    que
+                                                    AdmissionFacile met en place des mesures de sécurité appropriées
+                                                    pour protéger mes données personnelles contre tout accès non
+                                                    autorisé, divulgation ou altération. Cependant, je comprends que
+                                                    malgré ces efforts, aucun système de sécurité n'est totalement
+                                                    exempt de risques.")}}
+                                                </li>
+                                                <li>
+                                                    <strong>{{t("Retrait du Consentement :")}}</strong> {{t("Je suis
+                                                    conscient(e) que
+                                                    je peux retirer mon consentement à tout moment en contactant
+                                                    AdmissionFacile. Cela pourrait cependant avoir un impact sur ma
+                                                    demande d'admission en cours.")}}
+                                                </li>
+                                                <li>
+                                                    <strong>{{t("Conservation des Données :")}}</strong> {{t("Si ma
+                                                    demande
+                                                    d'admission est rejetée, je consens à ce que mes informations
+                                                    personnelles soient conservées à des fins d'archive, afin de
+                                                    garantir la traçabilité du processus. Toutefois, je peux demander la
+                                                    suppression de mes données à tout moment.")}}
+                                                </li>
+                                            </ol>
+                                        </div>
+                                        <form class="form-step" data-step="1">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <div>
+                                                <div class="form-control">
+                                                    <input class="form-check-input me-1" name="acceptConditions"
+                                                        type="checkbox" {{data.application_accept_conditions ? "checked='checked'":""}} value="" id="firstCheckbox">
+                                                    <label class="form-check-label" for="firstCheckbox">{{t("J'accepte
+                                                        les
+                                                        termes & conditions ci dessus.")}}</label>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 text-right">
+                                                <button class=" p-3 btn btn-common " type="submit"><span
+                                                        class="me-2">{{t("Continuer")}}</span>
+                                                    <i class="fa fa-chevron-right "></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-2" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <form class="form-step" data-step="2">
+                                        <div class="">
+                                            <h6 class="border-bottom   pb-2 mb-4"><strong>{{t("Informations de
+                                                    personnelles")}}</strong></h6>
+                                            <div class="row form-element">
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Nom de
+                                                        famille")}}</label>
+                                                    <input type="text" name="application-contact-lastname"
+                                                        placeholder="" required="" class="w-100" value="{{data.application_lastname}}">
+                                                    <small>{{t("Veuillez saisir votre nom de famille")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Prénoms")}} </label>
+                                                    <input type="text" name="application-contact-firstname"
+                                                        placeholder="" required="" class="w-100" value="{{data.application_firstname}}">
+                                                    <small>{{t("Veuillez renseigner tous vos prénoms")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12">
+                                                    <label for="formFile" class="form-label">{{t("Autres noms
+                                                        ")}}</label>
+                                                    <input type="text" name="application-contact-orthername"
+                                                        placeholder="" class="w-100" value="{{data.application_other_names}}">
+                                                    <small>{{t("Veuillez renseigner tous autres noms utilisés pour vous
+                                                        identifier")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Date de
+                                                        naissance")}}</label>
+                                                    <input type="date" name="application-contact-bithday" placeholder=""
+                                                        required="" class="w-100"  value="{{data.application_birthday|date("Y-m-d")}}">
+                                                    <small>{{t("Veuillez entrer votre date de naissance")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Lieu de naissance")}}
+                                                    </label>
+                                                    <input type="text" name="application-contact-bithlocation"
+                                                        placeholder="" required="" class="w-100" value="{{data.application_bith_location}}">
+                                                    <small>{{t("Veuillez entrer votre lieu de naissance")}}</small>
+                                                </div>
+                                                <div class="col-12 mt-3">
+                                                    <label for="formFile" class="form-label">{{t("Sexe")}} </label>
+                                                    <div class="form-check mt-2">
+                                                        <input value="M" {{data.application_sex=="M" ? "checked='checked'":""}} name="application-contact-sexe"
+                                                            class="form-check-input" type="radio">
+                                                        <label class="form-check-label">
+                                                            {{t("Masculin")}}
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check mt-2">
+                                                        <input  {{data.application_sex=="F" ? "checked='checked'":""}}  class="form-check-input" value="F" type="radio"
+                                                            name="application-contact-sexe" checked>
+                                                        <label class="form-check-label">
+                                                            {{t("Féminin")}}
+
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Votre
+                                                        courriel")}}</label>
+                                                    <input type="text" value="{{data.application_email}}" name="application-contact-email" placeholder=""
+                                                        required="" class="w-100">
+                                                    <small>{{t("Veuillez à mettre une adresse de courriel
+                                                        valide")}}</small>
+                                                </div>
+                                                <div class="mt-3 col-12 col-md-6">
+                                                    <label for="formFile" class="form-label">{{t("Numéro de
+                                                        téléphone")}}
+                                                    </label>
+                                                    <input type="tel" value="{{data.application_phone}}"  name="application-contact-phone" placeholder=""
+                                                        required="" class="w-100">
+                                                    <small>{{t("Il est recommandé de renseigné un numéro de téléphone
+                                                        pour
+                                                        vous contacter directement si besoin ")}}</small>
+                                                </div>
+
+                                                <div class="mt-3 col-12">
+                                                    <div>
+                                                        <label for="formFile" class="form-label">{{t('Langue courramment
+                                                            parlée')}}</label>
+                                                    </div>
+                                                    <div>
+                                                        <select class="" name="application-contact-baselanguage">
+                                                            <option value="">{{t("Choisir")}}</option>
+                                                            <option value="fr" {{data.application_main_language=="fr"? "selected='selected'":""}}>{{t("Français")}}</option>
+                                                            <option value="en" {{data.application_main_language=="en"? "selected='selected'":""}}>{{t("Anglais")}}</option>
+                                                        </select>
+                                                    </div>
+                                                    <div>
+                                                        <small>{{t("Veuillez renseigner votre langue
+                                                            maternelle")}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div class="mt-4 text-right">
+                                            <button type="submit" class=" p-3 btn btn-common "><span
+                                                    class="me-2">{{t("Continuer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-3" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <form action="" class="form-step" data-step="3">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div class="form-element">
+                                            <div class="mt-2">
+                                                <h6 class="border-bottom pb-2 mb-4"><strong>{{t("Informations du
+                                                        père")}}</strong></h6>
+                                                <div>
+                                                    <div class="row form-element">
+                                                        <div class="col-12">
+                                                            <label for="formFile" class="form-label">{{t("Nom
+                                                                Complet")}}</label>
+                                                            <input type="text" name="application-father-fullname"
+                                                                placeholder="" required="" class="w-100" value="{{data.application_father_fullname}}">
+                                                            <small>{{t("Entrez le nom de votre père meme si
+                                                                décédée")}}</small>
+                                                        </div>
+                                                        <div class="mt-3 col-12 col-md-6">
+                                                            <label for="formFile" class="form-label">{{t("Numéro de
+                                                                téléphone")}}</label>
+                                                            <input type="text" name="application-father-phone"
+                                                                placeholder="" required="" class="w-100" value="{{data.application_father_phone}}">
+                                                            <small>{{t("Entrez le numéro de téléphone de votre père
+                                                                ")}}</small>
+                                                        </div>
+                                                        <div class="mt-3 col-12 col-md-6">
+                                                            <label for="formFile"
+                                                                class="form-label">{{t("Profession")}}</label>
+                                                            <input type="text" name="application-father-profession"
+                                                                placeholder="" required="" class="w-100"  value="{{data.application_father_job_title}}">
+                                                            <small>{{t("Entrez la profession de votre père ")}}</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-5">
+                                                <h6 class="border-bottom   pb-2 mb-4"><strong>{{t("Informations de la
+                                                        mere")}}</strong></h6>
+                                                <div class="row form-element">
+                                                    <div class="col-12">
+                                                        <label for="formFile" class="form-label">Nom Complet</label>
+                                                        <input type="text" name="application-mother-fullname"
+                                                            placeholder="" required="" class="w-100"  value="{{data.application_mother_fullname}}">
+                                                        <small>{{t("Entrez le nom de votre mère meme si
+                                                            décédée")}}</small>
+                                                    </div>
+                                                    <div class="mt-3 col-12 col-md-6">
+                                                        <label for="formFile" class="form-label" >Numéro de
+                                                            téléphone</label>
+                                                        <input type="text" name="application-mother-phone"
+                                                            placeholder="" required="" class="w-100" value="{{data.application_mother_phone}}">
+                                                        <small>{{t("Entrez le numéro de téléphone de votre mère
+                                                            ")}}</small>
+                                                    </div>
+                                                    <div class="mt-3 col-12 col-md-6">
+                                                        <label for="formFile" class="form-label">Profession</label>
+                                                        <input type="text" name="application-mother-profession"
+                                                            placeholder="" required="" class="w-100"  value="{{data.application_mother_job_title}}">
+                                                        <small>{{t("Entrez la profession de votre mère ")}}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mt-4 text-right">
+                                                <button class=" p-3 btn btn-common " type="submit"><span
+                                                        class="me-2">{{t("Continuer")}}</span>
+                                                    <i class="fa fa-chevron-right "></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-4" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <div class="form-element">
+                                        <div>
+                                            <h6 class="border-bottom   pb-2 mb-4"><strong>{{t("Adresse de
+                                                    résidence")}}</strong></h6>
+                                            <form action="" class="form-step" data-step="4">
+                                                <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                                <div class="row">
+                                                    <div class="mt-3 col-12 col-md-6">
+                                                        <div>
+                                                            <label for="formFile" class="form-label">{{t("Pays de
+                                                                résidence")}}</label>
+                                                        </div>
+                                                        <div>
+                                                            <select class="" name="application-contact-country">
+                                                                <option>{{t("Choisir")}}</option>
+                                                                {% for k,v in countries %}
+                                                                <option value="{{k}}" {{data.application_country== k? "selected='selected'":""}}>{{v["name"]}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <small>{{t("Veuillez renseigner sur votre pays de résidence
+                                                                actuelle")}}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-3 col-12 col-md-6">
+                                                        <label for="formFile" class="form-label">{{t("Ville de
+                                                            résidence")}}</label>
+                                                        <div>
+                                                            <input type="text" name="application-contact-town"
+                                                                placeholder="" required="" class="w-100" value="{{data.application_town}}" >
+                                                        </div>
+                                                        <div>
+                                                            <small>{{t("Veuillez renseigner sur votre ville de résidence
+                                                                actuelle")}}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-3 col-12">
+                                                        <label for="formFile" class="form-label">{{t("Code
+                                                            Postal")}}</label>
+                                                        <input type="text" name="application-contact-postalcode"
+                                                            placeholder="" required="" class="w-100" value="{{data.application_postal_code}}">
+                                                        <small>{{t("Veuillez renreigner votre code postal au complet
+                                                            (Numéro
+                                                            de
+                                                            rue, Code Postal, Numéro d'appartement)")}}</small>
+                                                    </div>
+                                                </div>
+                                                <div class="mt-4 text-right">
+                                                    <button class=" p-3 btn btn-common " type="submit"><span
+                                                            class="me-2">{{t("Continuer")}}</span>
+                                                        <i class="fa fa-chevron-right "></i>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="v-pills-5" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <h6>{{t("Questionnaires")}}</h6>
+                                    <p class="mb-4">{{t("Veuillez répondre clairement aux questions ci-dessous")}}</p>
+                                    <form action="" class="form-step" data-step="5">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <ol>
+                                            {% for q in questions %}
+                                            {% set result = json_decode(data.application_questions, true) %}
+                                            <li>
+                                                <strong>{{q.admission_group_meta_value}}</strong>
+                                                <textarea class="form-control mt-2 w-100"
+                                                    name="application-question-{{q.admission_group_meta_id}}" id=""
+                                                    cols="30" rows="3">{{result[q.admission_group_meta_id].candidate_response}}</textarea>
+                                            </li>
+                                            {% endfor %}
+                                        </ol>
+                                        <div class="mt-4 text-right">
+                                            <button class=" p-3 btn btn-common " type="submit"><span
+                                                    class="me-2">{{t("Continuer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane fade" id="v-pills-6" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <form class="form-step" data-step="6">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div>
+                                            <h6>{{t("Les regles d'admission")}}</h6>
+                                            <p class="mb-4">{{t("Veuillez confirmer que vous respecter les regle
+                                                d'admission
+                                                pour continuer")}}</p>
+
+                                            <div class="row-gap-3 form-step">
+                                                {% for k, q in rules %}
+                                                {% set result = json_decode(data.application_questions, true) %}
+                                                <div class="form-check mt-4">
+                                                    
+                                                    <input name="application-question-{{q.admission_group_meta_id}}"
+                                                        class="form-check-input" name="acceptConditions" type="checkbox"
+                                                        {{result[q.admission_group_meta_id].candidate_response is not empty ? "checked='checked'":""}}  id="firstCheckbox">
+                                                    <h6 class="form-check-label" for="firstCheckbox">{{t("Regle "~(k +
+                                                        1))}}</h6>
+                                                    <p>{{q.admission_group_meta_value}}</p>
+
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 text-right">
+                                            <button class=" p-3 btn btn-common " type="submit"><span
+                                                    class="me-2">{{t("Continuer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-7" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+
+                                    <form action="" data-step="7" class="form-step">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div>
+                                            <h6>{{t("Note additionnelle")}}</h6>
+                                            <p class="mb-4">{{t("Vous pouvez ajouter une note additionnelle a votre
+                                                candidature. Elle sera envoyé directement à l'organisme.")}}</p>
+                                        </div>
+                                        <div>
+                                            <strong>{{" Notes "}}</strong>
+                                            <textarea class="form-control mt-2 w-100" name="additional-note" id=""
+                                                cols="30" rows="3">{{data.application_note}}</textarea>
+                                        </div>
+                                        <div class="mt-4 text-right">
+                                            <button class=" p-3 btn btn-common " type="submit"><span
+                                                    class="me-2">{{t("Continuer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-8" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <h5>{{t("Révision")}}</h5>
+                                    <div id="resume-container">
+                                        {{resume|raw}}
+                                    </div>
+                                    <form data-step="8" class="form-step">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <div class="mt-4 text-right">
+                                            <button class=" p-3 btn btn-common " type="submit"><span
+                                                    class="me-2">{{t("Confirmer")}}</span>
+                                                <i class="fa fa-chevron-right "></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-9" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <h5>{{t("Frais de dossier")}}</h5>
+                                    <div class="card mt-4 p-4">
+                                        <div class="card-body">
+                                            <div class="d-flex">
+                                                <h6>{{t("Paiement des frais de dossier")}}</h6>
+                                            </div>
+                                            <div class="pb-4">
+                                                <p class="">
+                                                    {{t("Veuillez procédér au paiement des frais de dossier pour
+                                                    soumettre votre demande d'admission")}}
+                                                </p>
+                                                <p>{{"Montant à payer"}}</p>
+                                                <h3>{{admission.admission_fees~" €"}}</h3>
+                                                <a href="{{data.application_invoice_id ? "/payments/"~data.application_invoice_id~"/resume" : "#"}}" class="pay-btn p-3 btn btn-common " type="submit"><span
+                                                        class="me-2">{{t("Payer")}}</span>
+                                                    <i class="fa fa-chevron-right "></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="v-pills-10" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab" tabindex="0">
+                                    <p>This is some placeholder content the <strong>Home tab's</strong> associated
+                                        content. Clicking another tab will toggle the visibility of this one for the
+                                        next. The tab JavaScript swaps classes to control the content visibility and
+                                        styling. You can use it with tabs, pills, and any other
+                                        <code>.nav</code>-powered navigation.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        window.onload = function () {
+            
+            
+            let currentApplicationId = '{{data.application_id ?? null }}';
+            $next=0
+            {% if data.application_step %}
+            
+            $next={{data.application_step ?? 0}}
+            while (!document.querySelector("[data-bs-target='#v-pills-" + $next + "']")) {
+                $next = $next + 1;
+            }
+    
+            $("[data-bs-target='#v-pills-"+$next+"']").removeAttr("disabled").removeClass("disabled").click();
+            $(".tab-content .tab-pane").removeClass("active")
+            $("#v-pills-"+$next).addClass("active show");
+            
+            {% else %}
+    
+            $("[data-bs-target='#v-pills-1']").removeAttr("disabled").removeClass("disabled").click();
+            
+            {% endif %}
+    
+            function handleEvent(e) {
+                e.preventDefault();
+                const step =  e.currentTarget.dataset["step"];
+    
+    
+                if (!isNaN(step) && step) {
+                    //(formClass, to, onSuccess, getParentCallback, additionnals = {}, onError)
+                    $(e.currentTarget)
+                    .find('button[type="submit"]')
+                    .attr("disabled", "disabled")
+                    .addClass('disabled')
+                    .prepend(`
+                        <div class="spinner-border spinner-border-sm" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    `)
+                    submitForm(`form.form-step[data-step='${step}']`, "/submissions/student/{{groupId}}/" + step, (result) => {
+                        let next = Number(step) + 1;
+                        if(result?.invoice_url){
+                            $("a.pay-btn").attr("href", result?.invoice_url)
+                        }
+                        if (!currentApplicationId && !!(result?.data?.application_id)) {
+                            currentApplicationId = result?.data?.application_id;
+                        }
+                        if (!!(result?.resume)) {
+                            $("#resume-container").html(result?.resume)
+                        }
+                        if (currentApplicationId) {
+                            while (!document.querySelector("[data-bs-target='#v-pills-" + next + "']")) {
+                                next = next + 1;
+                            }
+                            $("[data-bs-target='#v-pills-" + next + "']").removeAttr("disabled").removeClass("disabled").click();
+                            initEvent()
+                        }
+    
+                    }, null, {
+                        application_id: currentApplicationId
+                    },null,()=>{
+                        $(e.currentTarget)
+                        .find("button[type='submit']")
+                        .removeClass("disabled")
+                        .removeAttr("disabled")
+                        .find(".spinner-border")
+                        .remove();
+                    })
+                }
+            }
+    
+            function initEvent() {
+                $("form.form-step").unbind("submit", handleEvent)
+                $("form.form-step").on("submit", handleEvent)
+            }
+            initEvent()
+    
+            
+        }
+    </script>
+    {% else %}
+    <div class="card col-12 col-md-10 mx-auto shadow">
+        <div class="card-body p-4">
+            <div class="d-md-flex justify-content-between">
+                <h3 class="text-primary">{{t("Dossier d'admission")}}</h3>
+                <div>
+                    <button class="btn bg-warning text-white " >En cours d'analyse</button>
+                </div>
+            </div>
+            {{resume|raw}}
+            <div class="mt-4">
+                <div class="d-flex pb-2  justify-content-between">
+                    <h6 class=" ">{{t("Frais du dossier - ")}}${{admission.admission_fees}} (<span class="text-success">Payés</span>)</h6>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    {% endif %}
+    <!-- teem area end here  -->
+</div>
+<!-- about page end here  -->
+
+
+{% endblock %}

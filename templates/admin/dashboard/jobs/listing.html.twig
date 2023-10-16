@@ -1,0 +1,80 @@
+{% extends 'admin/dashboard/base.html.twig' %}
+{% block title %}Liste des offres d'emploi | Administration | AdmissionFacile
+{% endblock %}
+{% block content %}
+<div class="container-fluid p-0">
+
+	<div class="d-flex justify-space-between row">
+		<div class="mb-4 col-12 col-sm-8  ">
+			<div class="d-flex w-100">
+				<h1 class="h3 mb-1 col-10">{{"Les Offres D'emploi"|trans}}</h1>
+			</div>
+
+			<p>{{t("Ajouter les informations relatives aux offres d'emploi")}}</p>
+		</div>
+		<div class=" col-sm-4 text-end mb-4 mb-sm-0 ">
+			<a href="/admin/jobs/item" class="btn btn-outline-secondary">{{t("Ajouter")}}</a>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-xl-12">
+			<div class="card">
+				<div class="card-body">
+					<table id="datatables-clients" class="table table-striped" style="width:100%">
+						<thead>
+							<tr>
+								<th>{{t("Nom du job")}}</th>
+                                <th>{{t('Secteur')}}</th>
+                                <th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for d in data %}
+							<tr>
+								
+								<td>
+									{{d.job_title|raw}}
+								</td>
+								<td>
+									{{d.sector_name|raw}}
+								</td>
+                                <td>
+                                    <div class="dropdown position-relative">
+										<a href="#" class="btn btn-primary" data-bs-toggle="dropdown" data-bs-display="static">
+											<i class="fas fa-ellipsis-v"></i>
+										</a>
+										<div class="dropdown-menu dropdown-menu-end">
+											<a class="dropdown-item"
+												href="/admin/jobs/item/{{d.job_id}}">Editer</a>
+											<a class="dropdown-item delete-action-modal-btn text-white bg-danger" href="#"
+												data-bs-action-url="/admin/jobs?item_id={{d.job_id}}&action=delete"  data-bs-toggle="modal"
+												data-bs-action-message="Voulez vous supprimer ce programme ?">Supprimer</a>
+										</div>
+									</div>
+                                </td>
+							</tr>
+							{% endfor %}
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function () { // Datatables clients
+		$("#datatables-clients").DataTable({
+			responsive: true,
+			order: [
+				[1, "asc"]
+			]
+		});
+
+
+	});
+</script>
+
+{% endblock %}

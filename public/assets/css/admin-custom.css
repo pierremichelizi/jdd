@@ -1,0 +1,65 @@
+.icon-file-selector{
+    position: relative;
+    max-width: 100px;
+    height: 100px;
+    width: 100%;
+    max-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    overflow: hidden;
+
+}
+.icon-file-selector input[type=file]{
+    opacity: 0;
+    position: absolute;
+    inset: 0;
+}
+.icon-file-selector img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.icon-file-selector .close{
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    font-size: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top:5px;
+    right: 5px;
+}
+
+.card-image{
+    width: 100px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 10px !important;
+}
+
+#datatables-clients_filter label{
+    display: flex;
+}
+#datatables-clients_filter input{
+    width: 100%;
+}
+.text-collapse{
+    height: 60px;
+    overflow: hidden;
+}
+.text-collapse::after {
+    content: "...";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    line-height: 1;
+}
+.h-auto{
+    height: auto !important;
+}

@@ -1,0 +1,152 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}AdmissionFacile | {{"Obtener votre admission sans perdre du temps"|trans}}{% endblock %}
+
+{% block body %}
+<!-- about page start here  -->
+<div class="contact-us-wrapper single-page-section-top-space single-page-section-bottom-space">
+    <!-- breadcrumb area start here  -->
+    <div class="breadcrumb-wrap style-01">
+        <div class="container custom-container-01">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb-content">
+                        <h3 class="title">{{t("Contactez Nous")}}</h3>
+                        <p class="details">
+                            {{t("Vous avez besoin d'information ? Nos équipes sont disponible pour vous répondre à tout moment. Veuillez nous décrire votre préoccupation.")}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb area end here  -->
+
+    <!-- contact form start hare  -->
+    <section class="contact-form-area-wrapper section-bottom-space">
+        <div class="container custom-container-01">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="apply-form-inner">
+                        <div class="row justify-content-between">
+                            <div class="col-lg-5">
+                                <div class="contact-address">
+                                    <h3 class="title">{{t("Contactez-Nous")}}</h3>
+
+                                    <ul class="ul contact-address-list">
+                                        <!--li class="single-address-item">
+                                            <span class="icon-wrap color-01">
+                                                <i class="fa-sharp fa-solid fa-location-dot icon"></i>
+                                            </span>
+                                            <span class="text">Paris, France</span>
+                                        </li-->
+                                        <!--li class="single-address-item">
+                                            <span class="icon-wrap color-02">
+                                                <i class="fa-solid fa-phone icon"></i>
+                                            </span>
+                                            <span class="text">(270) 555-0117 <br>
+                                                (270) 589-7395</span>
+                                        </li-->
+                                        <li class="single-address-item">
+                                            <span class="icon-wrap color-03">
+                                                <i class="fa-solid fa-envelope-open icon"></i>
+                                            </span>
+                                            <span class="text"><a href="" class="__cf_email__" >support@admissionfacile.com</a> <br></span>
+                                        </li>
+                                    </ul>
+
+                                    <!--ul class="ul social-media-list style-01 color-02">
+                                        <li class="single-social-item">
+                                            <a href="#" tabindex="-1">
+                                                <i class="fa-brands fa-instagram icon"></i>
+                                            </a>
+                                        </li>
+                                        <li class="single-social-item">
+                                            <a href="#" tabindex="-1">
+                                                <i class="fa-brands fa-facebook-f icon"></i>
+                                            </a>
+                                        </li>
+                                        <li class="single-social-item">
+                                            <a href="#" tabindex="-1">
+                                                <i class="fa-brands fa-youtube icon"></i>
+                                            </a>
+                                        </li>
+                                        <li class="single-social-item">
+                                            <a href="#" tabindex="-1">
+                                                <i class="fa-brands fa-linkedin-in icon"></i>
+                                            </a>
+                                        </li>
+                                    </ul-->
+                                </div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="form">
+                                    <form class="contact-form" >
+                                        <div class="part">
+                                            <h5 class="title">Posez votre préoccupation</h5>
+                                            <div class="form-element">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <i class="fa-solid fa-user"></i>
+                                                        <input type="text" placeholder="Nom Complet" required="" name="fullname">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-element">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <i class="fa-solid fa-user"></i>
+                                                        <input type="text" placeholder="Email" name="email" required="">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-element">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <i class="fa-solid fa-phone"></i>
+                                                        <input type="tel" placeholder="Numéro de téléphone" name="phone"
+                                                            required="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-element">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <textarea class="textarea" name="description"
+                                                            placeholder="Poser votre question ici..."
+                                                            rows="10" style="min-height: 200px;;"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}" id="">
+                                        <div class="form-submit text-right">
+                                            <button type="submit" class="btn-common btn-active">
+
+                                                Soumettre
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+<!-- about page end here  -->
+<script>
+    window.onload=function(){
+        console.log(Contact)
+        new Contact();
+    }
+</script>
+{% endblock %}
+
+
