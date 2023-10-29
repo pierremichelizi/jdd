@@ -2,7 +2,7 @@
 
 namespace Core;
 
-use Session;
+use Translation;
 
 $config = require_once("../config/db.php");
 $env = require_once("../config/env.php");
@@ -25,14 +25,16 @@ require_once("autoload.php");
 
 require_once("../vendor/autoload.php");
 
+
 //Load twig
 $twigLoader = new \Twig\Loader\FilesystemLoader('../templates');
 $twig = new \Twig\Environment($twigLoader, [
     'cache' =>  $env["ENV"] === "DEV" ?  false : "../tmp/twig",
+    'autoescape' => false
 ]);
 
 $translationFilter = new  \Twig\TwigFilter('trans', function ($key, array $array = []) {
-    return t($key, $array[0] ?? [],  $array[1] ?? true, $array[2] ?? null, $array[3] ?? null, $array[3] ?? true, $array[4] ?? true);
+    return trans($key, $array[0] ?? [],  $array[1] ?? true, $array[2] ?? null, $array[3] ?? null, $array[3] ?? true, $array[4] ?? true);
 }, ['is_variadic' => true]);
 
 $jsonDecode = new  \Twig\TwigFilter('json_decode', function ($key) {
@@ -44,7 +46,7 @@ $decode = new  \Twig\TwigFilter('decode', function ($key) {
 });
 
 
-$translationFunction = new \Twig\TwigFunction('t', 't');
+$translationFunction = new \Twig\TwigFunction('t', 'trans');
 $jsonDecodeFunc = new \Twig\TwigFunction('json_decode', 'json_decode');
 $twig->addGlobal("csrf_token", session()->getState()->getCsrfToken());
 $twig->addGlobal("isLogged", !!(session()->getState()->getUser()));
@@ -149,12 +151,14 @@ abstract class Controller
 {
     public function render(string $path, array $args = [], $status = 200)
     {
-        global $twig;
+        global $twig, $env;
+        $pageData=$twig->load($path)->render([
+            ...$args,
+            "lang"=>Translation::getLanguage(),
+            "flash"=>session()->getState()->getFlash()
+        ]);
         return [
-            "__twig_template" => $twig->load($path)->render([
-                ...$args,
-                "flash"=>session()->getState()->getFlash()
-            ]),
+            "__twig_template" => Translation::translateHtml($pageData),
             "__response_status" => $status
         ];
     }

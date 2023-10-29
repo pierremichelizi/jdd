@@ -26,10 +26,20 @@ use Core\Response;
 use Core\Route;
 use Core\Router;
 use DateTime;
+use Translation;
 
 #[Route("/")]
 class HomeController extends Controller
 {
+    #[GET("/lang/{langue}")]
+    function lang(#[Param()]$langue){
+        
+        if(in_array($langue, SUPPORTED_LANGUAGES)){
+            Translation::setLanguage($langue);
+        }
+        var_dump((isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "/"));
+        Router::redirect(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : "/");
+    }
 
     #[GET("/")]
     public function index()

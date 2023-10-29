@@ -237,12 +237,11 @@ class Response
 
     function render()
     {
-
+        \Translation::init();
         ob_start();
         $params = $this->params;
         require(dirname(__DIR__) . DIRECTORY_SEPARATOR . "templates" . DIRECTORY_SEPARATOR . $this->path . ".php");
         $viewContent = ob_get_clean();
-        \Translation::init($this->path);
         $this->renderHTMLContent($viewContent);
     }
 

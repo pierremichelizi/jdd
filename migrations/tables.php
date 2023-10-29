@@ -311,6 +311,8 @@ class TableMigration
             job_application_user_id varchar(255) not null,
             job_application_is_paid boolean default(0),
             job_application_invoice_id varchar(255),
+            job_application_createdAt datetime default(now()),
+            job_application_updatedAt datetime default(now()) ,
             
             foreign key (job_application_invoice_id) references invoice(invoice_id),
             foreign key (job_application_user_id) references user(user_id),

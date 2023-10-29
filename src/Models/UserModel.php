@@ -31,7 +31,7 @@ class UserModel
 
     static function getAll()
     {
-        return DB::pdo()->query("SELECT * FROM user order by user_createdAt desc")->fetch();
+        return DB::pdo()->query("SELECT * FROM user order by user_createdAt desc")->fetchAll();
     }
 
     static function update($params){

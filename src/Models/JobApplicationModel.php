@@ -18,7 +18,7 @@ class JobApplicationModel{
     }
 
     static function get($id){
-        return DB::pdo()->query("SELECT  * from ".self::$table." LEFT JOIN job on job_id =  job_application.job_application_job_id WHERE job_application_id='$id'")->fetch();
+        return DB::pdo()->query("SELECT  * from ".self::$table." LEFT JOIN job on job_id =  job_application.job_application_job_id left join invoice on job_application_invoice_id = invoice_id WHERE job_application_id='$id'")->fetch();
     }
 
     static function getForUser($userid){

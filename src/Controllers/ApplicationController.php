@@ -640,7 +640,7 @@ class ApplicationController extends Controller
         ]);
     }
 
-    function getJobApplicationResumeTemplate($id)
+    function getJobApplicationResumeTemplate($id, $isAdmin=false)
     {
         $application = JobApplicationModel::get($id);
         
@@ -648,18 +648,20 @@ class ApplicationController extends Controller
 
         return $twig->render("client/job-application-resume.html.twig", [
             "data" => $application,
+            "isAdmin"=>$isAdmin,
             "countries"=>getCountries()
 
         ]);
     }
 
-    function getApplicationResumeTemplate($id)
+    function getApplicationResumeTemplate($id, $isAdmin=false)
     {
         $application = ApplicationModel::getFull($id);
 
         global $twig;
         
         return $twig->render("client/student-application-resume.html.twig", [
+            "isAdmin"=>$isAdmin,
             "data" => $application,
 
         ]);

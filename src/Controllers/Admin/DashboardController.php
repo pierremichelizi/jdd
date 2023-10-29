@@ -22,7 +22,9 @@ class DashboardController extends Controller{
     #[Route("/users")]
     public function users(){
         $user = UserModel::getAll();
-        
+        return $this->render("admin/dashboard/users/listing.html.twig", [
+            "data"=>$user
+        ]);
     }
 
 

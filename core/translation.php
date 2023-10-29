@@ -1,4 +1,5 @@
 <?php
+use Google\Cloud\Translate\V2\TranslateClient;
 /**
  * NOTES:
  * 1-@Globals
@@ -39,6 +40,7 @@ class Translation
     static function setLanguage(string $language)
     {
         self::$language = $language;
+        $_SESSION["langue"]=self::$language ;
     }
 
     static function getConfigs()
@@ -92,7 +94,7 @@ class Translation
         if (file_exists($globalDirPath) && !empty($files = scandir($globalDirPath))) {
             $contents = [];
             foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($globalDirPath, \RecursiveDirectoryIterator::SKIP_DOTS)) as $file) {
-                if ($file->getFilename() === self::$language . ".php") {
+                if ($file->getFilename() === self::$language . ".php" || $file->getFilename() === self::$language . ".json") {
                     $content = self::loadFileContent($file->getPathname(), false);
 
                     if (!empty($content)) $contents = [
@@ -168,6 +170,12 @@ class Translation
         return self::parseContent(self::loadUrl($url), $context, $includeGlobalContext, $includeGlobals);
     }
 
+    static function setContent($key, $value){
+        $filedata = file_exists(dirname(__DIR__)."/i18n/@globals/".self::$language.".json") ? json_decode(file_get_contents(dirname(__DIR__)."/i18n/@globals/".self::$language.".json"), true) : [];
+        $filedata[$key]=$value;
+        file_put_contents(dirname(__DIR__)."/i18n/@globals/".self::$language.".json", json_encode($filedata, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT));
+    }
+
     /**
      * Load Translation file content 
      * @param string $filePath  file path
@@ -178,7 +186,7 @@ class Translation
         $langFile = $uriRelativePath ? dirname(__DIR__) . "/lang/" . $filePath . "/" . self::$language . '.php' : $filePath;
         if (empty(self::$translations[$langFile])) {
             if (file_exists($langFile)) {
-                self::$translations[$langFile] = require($langFile);
+                self::$translations[$langFile] = strpos($langFile, ".json")!==false?json_decode(file_get_contents($langFile), true) : require($langFile);
             } else {
                 //trigger_error("Failed to load translation file located at " . $langFile . " Check if translation file exits.");
             }
@@ -197,17 +205,117 @@ class Translation
         if (empty(self::$currentUrlFile)) {
             $actual_link = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
             $uri = trim(parse_url($actual_link, PHP_URL_PATH), "/");
-            $urlPath = empty($uri) ? "client/pu_auth/login" : $uri;
+            $urlPath = empty($uri) ? "home" : $uri;
             self::$currentUrlFile = $urlPath;
             return Translation::parseUrlToTransFile($urlPath);
         }
         return self::$currentUrlFile;
     }
+
+    public static function getLangDir(){
+        $dirPath=dirname(__DIR__)."/i18n/".self::getCurrentUrlFile();
+        if (!is_dir($dirPath)) mkdir($dirPath, 0777, true);
+        return $dirPath;
+    }
+
+    public static function extractLangContent($html){
+        $doc = new \DOMDocument();
+        $doc->loadHTML($html);
+        $xpath = new \DOMXPath($doc);
+        $textData = [];
+        $jsonData=[];
+        //SaveContent file to translation file
+        $nodes = $xpath->query('//text()[not(ancestor::script) and not(ancestor::style) and not(ancestor::svg)]');
+
+        foreach ($nodes as $node) {
+
+            $text = trim($node->nodeValue);
+            if (!empty($text)) {
+                //Real text key
+                $textData[] = $text;
+                $jsonData[$text]=$text;
+            }
+        }
+        
+        return $jsonData;
+    }
+
+    public static function extractContent($html){
+        $pathDir=self::getLangDir();
+        $defaultLangFile =  $pathDir."/".DEFAULT_LANGUAGE.".json";
+        $defaultLanContents=self::extractLangContent($html);
+        file_put_contents($defaultLangFile, json_encode($defaultLanContents, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+
+        $targetFileContent =[];
+        if(DEFAULT_LANGUAGE!=self::$language){
+            $targetLangFile =  $pathDir."/".self::$language.".json";
+            $targetFileContent=[];
+            if(file_exists($targetLangFile)){
+                $targetFileContent = json_decode(file_get_contents($targetLangFile), true);
+            }
+            $newTranslates=false;
+            foreach($defaultLanContents as $key=>$value){
+                if (empty($targetFileContent[$key])){
+                    $newTranslates=true;
+                    $targetFileContent[$key]=self::translateWithGoogle($value);
+                }
+            }
+            if($newTranslates){
+                file_put_contents($pathDir."/".self::$language.".json", json_encode($targetFileContent, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES));
+            }
+            
+        
+        }else{
+            $targetFileContent=$defaultLanContents;
+        }
+        return str_replace(array_keys($targetFileContent),array_values($targetFileContent), $html);
+        
+
+    }
+
+    public static function translateHtml($html){
+        return self::translateWithGoogle($html);
+    }
+
+    static function translateWithGoogle($text){
+        if (self::$language==DEFAULT_LANGUAGE ) return $text;
+        $translate = new TranslateClient([
+            'key' => 'AIzaSyDez8oOpzwGM9EceyYKIcTrsiv7vmMwFAs'
+        ]);
+
+        $translatedValue = $translate->translate($text, [
+            'source' => DEFAULT_LANGUAGE,
+            'target' => self::$language,
+            'format'=>"html"
+        ]);
+
+        return $translatedValue["text"];
+
+    }
+
+
+    /*static function translateWithGoogle($data){
+        
+
+        $translate = new TranslateClient([
+            'key' => 'AIzaSyDez8oOpzwGM9EceyYKIcTrsiv7vmMwFAs'
+        ]);
+
+        $translatedValue = DEFAULT_LANGUAGE==self::$language ?["text"=>implode($separators, $data)]:  $translate->translate(implode($separators, array_values($data)), [
+            'source' => DEFAULT_LANGUAGE,
+            'target' => self::$language,
+            'format'=>"html"
+        ]);
+        $result=explode($separators, $translatedValue["text"]);
+        
+        return array_combine(array_keys($data), $result);
+
+    }*/
 }
 
-function t(string $key, array $params = [], bool $allowScript=true,?string $url = null, string $context = null, ?bool $includeGlobalContext = true, ?bool $includeGlobals = true)
+function trans(string $key, array $params = [], bool $allowScript=false,?string $url = null, string $context = null, ?bool $includeGlobalContext = true, ?bool $includeGlobals = true)
 {
-
+    
     $contextContent = Translation::getContent($url, $context, $includeGlobalContext, $includeGlobals);
     $keyVal = array_reduce(explode(".", $key), function ($prev, $cur) use ($contextContent, $key) {
         $data = $prev ?? $contextContent;
@@ -216,9 +324,15 @@ function t(string $key, array $params = [], bool $allowScript=true,?string $url 
         }
         return $data;
     });
+    
     $keyContent = $keyVal ?? $key;
+    if (empty($keyVal)){
+        Translation::setContent($key, $keyContent);
+    }
     $keyContent = $allowScript ?$keyContent : htmlspecialchars($keyContent);
+    
     $paramIndex = 0;
+    
     if (\count($params) && strpos($keyContent, "}}") !== false) {
         $translationKeys =  array_filter(array_map(function ($value) {
             $arr = explode("{{", $value);
@@ -234,6 +348,11 @@ function t(string $key, array $params = [], bool $allowScript=true,?string $url 
 
     return $keyContent;
 }
+
+function t(string $key){
+    return Translation::translateWithGoogle($key);
+}
+
 
 
 

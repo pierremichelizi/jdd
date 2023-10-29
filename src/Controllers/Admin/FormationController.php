@@ -48,7 +48,8 @@ class FormationController extends Controller
         return $this->render("admin/dashboard/formations/candidature/application.html.twig", [
             "data"=>$canditature,
             "resume"=>$this->render("client/student-application-resume.html.twig", [
-                "data"=>$canditature
+                "data"=>$canditature,
+                "isAdmin"=>true
             ])["__twig_template"]
         ]);
     }

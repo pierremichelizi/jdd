@@ -12,6 +12,7 @@
     ],
     "require": {
         "twig/twig": "^3.0",
-        "fzaninotto/faker": "^1.5"
+        "fzaninotto/faker": "^1.5",
+        "google/cloud-translate": "^1.15"
     }
 }

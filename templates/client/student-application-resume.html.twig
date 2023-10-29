@@ -211,18 +211,20 @@
 
     </div>
     
-    {% if data.invoice_id %}
-    <div class="mt-4">
-        <h6 class="border-bottom pb-2">{{t("Facture")}}</h6>
-        <p>Payé le {{data.invoice_paid_at|date('d-m-Y')}}</p>
-        <div class="row">
-            <a href="{{data.invoice_payment_proof_file}}" download="download">Télécharger</a>
+    {% if isAdmin %}
+        {% if data.invoice_id and data.application_is_paid %}
+        <div class="mt-4">
+            <h6 class="border-bottom pb-2">{{t("Facture")}}</h6>
+            <p>Payé le {{data.invoice_paid_at|date('d-m-Y')}}</p>
+            <div class="row">
+                <a href="{{data.invoice_payment_proof_file}}" download="download">Télécharger</a>
+
+            </div>
 
         </div>
-
-    </div>
-    {% else %}
-        <p>Aucune facture payée</p>
-    {% endif %}
+        {% else %}
+            <p class="mt-4 text-danger">Aucune facture payée</p>
+        {% endif %}
+    {% endif  %}
 
 </div>

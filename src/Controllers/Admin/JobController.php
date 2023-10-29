@@ -2,11 +2,13 @@
 
 namespace App\Controllers\Admin;
 
+use App\Controllers\ApplicationController;
 use App\Models\JobModel;
 use App\Models\SectorModel;
 use App\Validators\FormFieldValidator;
 use Core\Auth;
 use Core\Controller;
+use Core\Inject;
 use Core\Param;
 use Core\Response;
 use Core\Route;
@@ -15,6 +17,27 @@ use Core\Route;
 #[Auth(roles: ["ADMIN"], onErrorTo: "/auth/admin/login")]
 class JobController extends Controller
 {
+
+    #[Route("/applications")]
+    function candidatures(){
+        $canditatures = JobModel::getAll("left join job_application on job_application.job_application_job_id = job.job_id left join user on user.user_id=job_application.job_application_user_id where job_application_job_id is not null ");
+
+        return $this->render("admin/dashboard/jobs/candidature/listing.html.twig", [
+            "data"=>$canditatures
+        ]);
+    }
+
+    #[Route("/applications/{id}")]
+    function candidature(#[Param()] $id, #[Inject(ApplicationController::class)] ApplicationController $applicationController){
+        $canditatures = JobModel::getAll("left join job_application on job_application.job_application_job_id = job.job_id left join user on user.user_id=job_application.job_application_user_id left join invoice on job_application_invoice_id = invoice_id Where job_application.job_application_job_id is not null and  job_application_id = '$id'");
+        if(!empty($canditatures)){
+            return $this->render("admin/dashboard/jobs/candidature/application.html.twig", [
+                "data"=>$canditatures[0],
+                "resume"=>$applicationController->getJobApplicationResumeTemplate($id, true)
+            ]);
+        }
+        echo "Id de dossier inexistant";
+    }
 
 
     #[Route("/")]

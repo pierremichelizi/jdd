@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr-Fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,7 +39,7 @@
 
 
 
-<body>
+<body id="google-translate-xyz">
     <!-- preloader area start -->
     <div class="preloader" id="preloader">
         <div class="preloader-inner">
@@ -122,9 +122,33 @@
                             {% if isLogged %}
                             <li><a href="/user/submissions" class="text-primary d-lg-none">{{"Mon Compte"|trans}}</a></li>
                             {% else %}
-                            <li><a href="/login" class="d-lg-none">{{"Connexion"|trans}}</a></li>
-                            <li><a href="/signup" class="text-primary d-lg-none">{{"Inscription"|trans}}</a></li>
+                            <li class="d-lg-none"><a href="/login" >{{"Connexion"|trans}}</a></li>
+                            <li class="d-lg-none"><a href="/signup" class="text-primary ">{{"Inscription"|trans}}</a></li>
                             {% endif %}
+                            <li class="nav-item dropdown">
+                                {% if lang=="en" %}
+                                <a class="nav-flag dropdown-toggle" href="#" id="languageDropdown" data-bs-toggle="dropdown">
+                                    <img src="/assets/img/countries/us.png" style="max-width: 30px;" alt="English" />
+                                </a>
+                                {% endif %}
+                                {% if lang=="fr" %}
+                                <a class="nav-flag dropdown-toggle" href="#" id="languageDropdown" data-bs-toggle="dropdown">
+                                    <img src="/assets/img/countries/fr.png" style="max-width: 30px;" alt="Français" />
+                                </a>
+                                {% endif %}
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                    <a class="dropdown-item" href="/lang/en">
+                                        <img src="/assets/img/countries/us.png" alt="English" width="20"
+                                            class="align-middle me-1" />
+                                        <span class="align-middle">English</span>
+                                    </a>
+                                    <a class="dropdown-item" href="/lang/fr">
+                                        <img src="/assets/img/countries/fr.png" alt="Français" width="20"
+                                            class="align-middle me-1" />
+                                        <span class="align-middle">Français</span>
+                                    </a>
+                                </div>
+                            </li>
                         </ul>
                     </div>
                     <div class="nav-right-content">
@@ -337,6 +361,7 @@ s0.parentNode.insertBefore(s1,s0);
     <script src="/assets/js/custom.js"></script>
     <script src="/assets/js/admin-custom-pages.js"></script>
 
+    
 </body>
 
 

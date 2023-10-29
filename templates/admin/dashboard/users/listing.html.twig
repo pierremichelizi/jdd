@@ -2,6 +2,7 @@
 {% block title %}Liste des utilisateurs | Administration | AdmissionFacile
 {% endblock %}
 {% block content %}
+
 <div class="container-fluid p-0">
 
 	<div class="d-flex justify-space-between row">
@@ -10,7 +11,6 @@
 				<h1 class="h3 mb-1 col-10">{{"Les utilisateurs"|trans}}</h1>
 			</div>
 		</div>
-
 
 	</div>
 
@@ -24,7 +24,6 @@
 								<th>{{t("Nom Complet ")}}</th>
                                 <th>{{t('Email')}}</th>
                                 <th>{{t('Date de création du compte')}}</th>
-                                <th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -32,24 +31,13 @@
 							<tr>
 								
 								<td>
-									{{d.job_title|raw}}
+									{{d.user_fullname|raw}}
 								</td>
 								<td>
-									{{d.sector_name|raw}}
+									{{d.user_email|raw}}
 								</td>
                                 <td>
-                                    <div class="dropdown position-relative">
-										<a href="#" class="btn btn-primary" data-bs-toggle="dropdown" data-bs-display="static">
-											<i class="fas fa-ellipsis-v"></i>
-										</a>
-										<div class="dropdown-menu dropdown-menu-end">
-											<a class="dropdown-item"
-												href="/admin/jobs/item/{{d.job_id}}">Editer</a>
-											<a class="dropdown-item delete-action-modal-btn text-white bg-danger" href="#"
-												data-bs-action-url="/admin/jobs?item_id={{d.job_id}}&action=delete"  data-bs-toggle="modal"
-												data-bs-action-message="Voulez vous supprimer ce programme ?">Supprimer</a>
-										</div>
-									</div>
+                                    {{d.user_createdAt|date('d-m-Y')}}
                                 </td>
 							</tr>
 							{% endfor %}

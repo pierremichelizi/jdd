@@ -21,8 +21,8 @@ class JobModel{
         return DB::pdo()->query("SELECT  * from ".self::$table." LEFT JOIN sector ON job.job_sector_id=sector_id WHERE job.job_sector_id IS NOT null  and job_id='$id'")->fetch();
     }
 
-    static function getAll(){
-        return DB::pdo()->query("SELECT * from ".self::$table." left join sector on sector_id = job_sector_id  order by job_createdAt DESC  ")->fetchAll();
+    static function getAll($where=""){
+        return DB::pdo()->query("SELECT * from ".self::$table." left join sector on sector_id = job_sector_id $where  order by job_createdAt DESC  ")->fetchAll();
     }
 
     static function getAllPaginated($page,$perpage=10,  $cols=null, $additionnalWhere="", $countAddCols=null, $countCallback = null ){
